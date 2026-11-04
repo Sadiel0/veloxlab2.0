@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VeloxLab Studio — AI-native creative studio, Miami</title>
+  <meta name="description" content="We make you look good, and we make it work. AI content production, brand identity, websites, apps and AI agents — from Miami." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- 1. NAV -->
+  <header class="nav" id="top">
+    <a class="wordmark" href="#top" aria-label="VeloxLab home">VELOX<span>LAB</span><i aria-hidden="true"></i></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#free-offer">Free offers</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn btn-ghost nav-cta" href="#contact">Book a call</a>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+  </header>
+
+  <main>
+    <!-- 2. HERO -->
+    <section class="hero" aria-label="Intro">
+      <canvas id="hero-gl" aria-hidden="true"></canvas>
+      <div class="hero-shade" aria-hidden="true"></div>
+
+      <div class="hero-readout mono" aria-hidden="true">
+        <span>[ HERO · GLASS REFRACTION ]</span>
+        <span>WEBGL · LIVE · <b id="fps">60</b> FPS</span>
+        <span>CURSOR-REACTIVE · BLOOM · GRAIN</span>
+      </div>
+
+      <div class="hero-inner wrap">
+        <p class="label mono reveal"><span class="dot"></span>AI-native creative studio · Miami</p>
+        <h1 class="hero-title reveal">Fast work that looks <em>expensive.</em></h1>
+        <p class="hero-sub reveal">We create the content that gets you seen, and build the sites, apps and AI tools that make it work.</p>
+        <div class="hero-ctas reveal">
+          <a class="btn btn-solid" href="#work">See what we make <span aria-hidden="true">→</span></a>
+          <a class="btn btn-ghost" href="#free-offer">Get a free spec video</a>
+        </div>
+      </div>
+
+      <a class="scroll-cue mono" href="#work"><span class="line" aria-hidden="true"></span>Scroll</a>
+    </section>
+
+    <div class="ticker mono" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Brand identity</span><span>AI ad production</span><span>UGC</span><span>Listing videos</span><span>Motion graphics</span><span>Websites</span><span>Apps &amp; dashboards</span><span>AI agents</span><span>Automations</span>
+        <span>Brand identity</span><span>AI ad production</span><span>UGC</span><span>Listing videos</span><span>Motion graphics</span><span>Websites</span><span>Apps &amp; dashboards</span><span>AI agents</span><span>Automations</span>
+      </div>
+    </div>
+
+    <!-- 3. SELECTED WORK -->
+    <section class="work wrap" id="work">
+      <div class="sec-head reveal">
+        <p class="label mono">(01) Selected work</p>
+        <h2>Selected work</h2>
+        <p class="sec-meta mono">04 pieces · 2026 · all muted loops</p>
+      </div>
+
+      <figure class="media media-feature reveal" data-media data-mode="1" data-a="#2EF2FF" data-b="#FF2D87" data-len="8">
+        <canvas></canvas>
+        <figcaption class="media-ui mono">
+          <span class="tl"><i class="rec"></i>Featured reel</span>
+          <span class="tr tc">00:00:00</span>
+          <span class="bl">Real estate push-in with 3D type</span>
+          <span class="br">[ Higgsfield · 6–8s loop ]</span>
+        </figcaption>
+      </figure>
+
+      <div class="clips">
+        <figure class="clip reveal">
+          <div class="media" data-media data-mode="4" data-a="#2EF2FF" data-b="#FFB020" data-len="6">
+            <canvas></canvas>
+            <div class="media-ui mono"><span class="tr tc">00:00:00</span></div>
+          </div>
+          <figcaption><span class="mono num">01</span>Real estate push-in</figcaption>
+        </figure>
+        <figure class="clip reveal">
+          <div class="media" data-media data-mode="2" data-a="#FF2D87" data-b="#FFB020" data-len="6">
+            <canvas></canvas>
+            <div class="media-ui mono"><span class="tr tc">00:00:00</span></div>
+          </div>
+          <figcaption><span class="mono num">02</span>UGC ad</figcaption>
+        </figure>
+        <figure class="clip reveal">
+          <div class="media" data-media data-mode="3" data-a="#B8FF3C" data-b="#2EF2FF" data-len="6">
+            <canvas></canvas>
+            <div class="media-ui mono"><span class="tr tc">00:00:00</span></div>
+          </div>
+          <figcaption><span class="mono num">03</span>Motion graphics / 3D type</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 4. SERVICES -->
+    <section class="services wrap" id="services">
+      <div class="sec-head reveal">
+        <p class="label mono">(02) Services</p>
+        <h2>Two ways we work.</h2>
+        <p class="sec-sub">Create gets you seen. Build makes it work.</p>
+      </div>
+
+      <div class="tracks">
+        <article class="track reveal">
+          <div class="media" data-media data-mode="0" data-a="#FF2D87" data-b="#FFB020" data-len="6" data-hover>
+            <canvas></canvas>
+            <div class="media-ui mono"><span class="tl">Create loop</span><span class="tr tc">00:00:00</span></div>
+          </div>
+          <p class="track-label mono"><span class="sw sw-pink"></span>Track 01 · Create</p>
+          <h3>Creative Studio</h3>
+          <ul class="rows">
+            <li><span class="row-name">Brand Identity</span><span class="row-line">Logo, visual system, voice.</span></li>
+            <li><span class="row-name">AI Content Production</span><span class="row-line">Ads, UGC, listing videos, motion graphics.</span></li>
+          </ul>
+          <a class="track-link" href="#free-offer">Free spec ad video <span aria-hidden="true">→</span></a>
+        </article>
+
+        <article class="track reveal">
+          <div class="media" data-media data-mode="5" data-a="#2EF2FF" data-b="#B8FF3C" data-len="6" data-hover>
+            <canvas></canvas>
+            <div class="media-ui mono"><span class="tl">Build loop · screen rec</span><span class="tr tc">00:00:00</span></div>
+          </div>
+          <p class="track-label mono"><span class="sw sw-cyan"></span>Track 02 · Build</p>
+          <h3>AI &amp; Development</h3>
+          <ul class="rows">
+            <li><span class="row-name">Websites &amp; Landing Pages</span><span class="row-line">Fast, 3D-ready sites that convert.</span></li>
+            <li><span class="row-name">Apps &amp; Dashboards</span><span class="row-line">Internal tools, client portals, live data.</span></li>
+            <li><span class="row-name">AI Agents &amp; Automations</span><span class="row-line">Assistants, lead follow-up, workflows that run themselves.</span></li>
+          </ul>
+          <a class="track-link" href="#audit">Free 15-min AI audit <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </section>
+
+    <!-- 5. START FREE -->
+    <section class="free" id="free-offer">
+      <div class="free-glow" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <p class="label mono">(03) Start free</p>
+          <h2>See the work before you pay for it.</h2>
+        </div>
+
+        <div class="offers">
+          <div class="offer reveal" id="spec">
+            <p class="track-label mono"><span class="sw sw-pink"></span>Offer 01 · Create</p>
+            <h3>Free spec ad video</h3>
+            <p class="offer-line">We make a short ad for your brand. Delivered in [X] days.</p>
+            <form class="form" data-form="spec" novalidate>
+              <label>Business name<input name="business" autocomplete="organization" required placeholder="Velox Realty" /></label>
+              <label>Instagram or website<input name="handle" required placeholder="@yourbrand or yoursite.com" /></label>
+              <label>Email<input type="email" name="email" autocomplete="email" required placeholder="you@company.com" /></label>
+              <button class="btn btn-solid" type="submit">Get my free spec video <span aria-hidden="true">→</span></button>
+              <p class="form-ok mono" role="status" hidden>Got it. Your spec brief is in the queue.</p>
+            </form>
+          </div>
+
+          <div class="offer reveal" id="audit">
+            <p class="track-label mono"><span class="sw sw-cyan"></span>Offer 02 · Build</p>
+            <h3>Free 15-min AI audit</h3>
+            <p class="offer-line">We look at how your business runs and show you what to automate first.</p>
+            <ul class="bullets">
+              <li><span class="mono">a</span>Where you're losing time or leads</li>
+              <li><span class="mono">b</span>1–2 quick AI wins you can ship this month</li>
+              <li><span class="mono">c</span>A ballpark for a site, app or agent</li>
+            </ul>
+            <a class="btn btn-cyan" href="#contact">Book my free audit <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. HOW IT WORKS -->
+    <section class="how wrap" aria-labelledby="how-h">
+      <div class="sec-head reveal">
+        <p class="label mono">(04) Process</p>
+        <h2 id="how-h">How it works</h2>
+      </div>
+      <ol class="steps">
+        <li class="reveal"><span class="step-n">01</span><h3>Brief</h3><p>15-minute call. Goals, audience, style.</p></li>
+        <li class="reveal"><span class="step-n">02</span><h3>Create or build</h3><p>First cut or working demo in [X] days. Two rounds of revisions.</p></li>
+        <li class="reveal"><span class="step-n">03</span><h3>Launch</h3><p>Content ready to post, or your site, app or agent live.</p></li>
+      </ol>
+    </section>
+
+    <!-- 7. CONTACT -->
+    <section class="contact" id="contact">
+      <div class="media contact-bg" data-media data-mode="0" data-a="#2EF2FF" data-b="#FF2D87" data-len="8" aria-hidden="true"><canvas></canvas></div>
+      <div class="wrap contact-inner">
+        <p class="label mono reveal">(05) Contact</p>
+        <h2 class="contact-title reveal">Ready to <em>move?</em></h2>
+        <p class="contact-line reveal">Book a call or send a message. We reply within [X] hours.</p>
+        <div class="hero-ctas reveal">
+          <a class="btn btn-solid" href="#" data-cal>Book a call <span aria-hidden="true">→</span></a>
+          <a class="btn btn-ghost" href="mailto:hello@veloxlab.studio">hello@veloxlab.studio</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 8. FOOTER -->
+  <footer class="footer wrap">
+    <span class="mono">© 2026 VeloxLab Studio · Miami</span>
+    <nav class="socials mono" aria-label="Social">
+      <a href="#">Instagram</a><a href="#">TikTok</a><a href="#">LinkedIn</a>
+    </nav>
+  </footer>
+
+  <!-- BOT: VELO -->
+  <div class="velo" data-state="hidden" data-view="greet">
+    <div class="velo-panel" role="dialog" aria-label="VELO assistant">
+      <div class="velo-head">
+        <span class="mono"><i class="live"></i>VELO</span>
+        <button class="velo-x" aria-label="Close assistant">×</button>
+      </div>
+
+      <div class="velo-view" data-v="greet">
+        <p class="velo-say">Hey! What would you like to do today?</p>
+        <div class="velo-choices">
+          <button data-go="spec">Get a free spec video <span>→</span></button>
+          <button data-go="audit">Get a free AI audit <span>→</span></button>
+          <button data-go="work">See our work <span>→</span></button>
+          <button data-go="human">Talk to a human <span>→</span></button>
+        </div>
+      </div>
+
+      <div class="velo-view" data-v="spec">
+        <p class="velo-say">Nice. Tell me about your business:</p>
+        <form class="form form-mini" data-form="velo-spec" novalidate>
+          <label>Business name<input name="business" required /></label>
+          <label>Instagram or website<input name="handle" required /></label>
+          <label>Email<input type="email" name="email" required /></label>
+          <button class="btn btn-solid" type="submit">Send it →</button>
+          <p class="form-ok mono" role="status" hidden>Sent. We'll be in touch.</p>
+        </form>
+        <button class="velo-back mono" data-go="greet">← Back</button>
+      </div>
+
+      <div class="velo-view" data-v="audit">
+        <p class="velo-say">15 minutes, no pitch. We'll show you what to automate first.</p>
+        <a class="btn btn-cyan" href="#contact" data-cal>Book my free audit →</a>
+        <button class="velo-back mono" data-go="greet">← Back</button>
+      </div>
+
+      <div class="velo-view" data-v="human">
+        <p class="velo-say">Sure, pick what works for you:</p>
+        <div class="velo-choices">
+          <a href="#contact" data-cal>Book a 15-min call <span>→</span></a>
+          <a href="#contact" data-close>Leave a message <span>→</span></a>
+          <a href="#" data-whatsapp>WhatsApp <span>→</span></a>
+        </div>
+        <button class="velo-back mono" data-go="greet">← Back</button>
+      </div>
+    </div>
+
+    <button class="velo-avatar" aria-label="Open VELO assistant">
+      <span class="blob"></span>
+      <span class="eyes"><i></i><i></i></span>
+    </button>
+  </div>
+
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/media.js" defer></script>
+  <script src="js/bot.js" defer></script>
+  <script type="module" src="js/hero.js"></script>
+</body>
+</html>
