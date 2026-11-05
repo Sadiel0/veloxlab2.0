@@ -10,7 +10,13 @@
     set() { try { sessionStorage.setItem(KEY, '1'); } catch { /* storage blocked */ } },
   };
 
-  const setState = (s) => (velo.dataset.state = s);
+  const panel = velo.querySelector('.velo-panel');
+  const setState = (s) => {
+    velo.dataset.state = s;
+    // Hidden: nothing is tabbable. Idle: only the avatar. Open: the panel.
+    velo.inert = s === 'hidden';
+    if (panel) panel.inert = s !== 'open';
+  };
   const setView = (v) => (velo.dataset.view = v);
 
   let shown = false;
@@ -66,10 +72,12 @@
       setView(v);
       return;
     }
-    if (e.target.closest('[data-close], [data-cal]')) setState('idle');
+    if (e.target.closest('[data-close], [data-cal], [data-whatsapp]')) setState('idle');
     if (e.target.closest('[data-whatsapp]')) {
       e.preventDefault();
-      // TODO: wa.me link with the studio number
+      // TODO(owner): wa.me link once the studio number exists. Do not invent one.
+      const c = document.querySelector('#contact');
+      if (c) c.scrollIntoView({ behavior: 'smooth' });
     }
   });
 

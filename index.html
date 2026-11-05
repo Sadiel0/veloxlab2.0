@@ -2,9 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <!-- COPY TODO: title. Existing non-realtor title kept until the designer replaces it. -->
   <title>VeloxLab Studio — AI-native creative studio, Miami</title>
-  <meta name="description" content="We make you look good, and we make it work. AI content production, brand identity, websites, apps and AI agents — from Miami." />
+  <!-- COPY TODO: meta-description. Factual placeholder so the snippet is not realtor-only. Not a final headline. -->
+  <meta name="description" data-copy="meta-description" content="VeloxLab Studio works with small businesses in Miami, in English and Spanish." />
+  <link rel="canonical" href="https://veloxlab.studio/" />
+  <meta name="theme-color" content="#07080b" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="VeloxLab Studio" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://veloxlab.studio/" />
+  <!-- COPY TODO: og-title -->
+  <meta property="og:title" data-copy="og-title" content="VeloxLab Studio — AI-native creative studio, Miami" />
+  <!-- COPY TODO: og-description -->
+  <meta property="og:description" data-copy="og-description" content="VeloxLab Studio works with small businesses in Miami, in English and Spanish." />
+  <meta name="twitter:card" content="summary" />
+  <!-- COPY TODO: twitter-title -->
+  <meta name="twitter:title" data-copy="twitter-title" content="VeloxLab Studio — AI-native creative studio, Miami" />
+  <!-- COPY TODO: twitter-description -->
+  <meta name="twitter:description" data-copy="twitter-description" content="VeloxLab Studio works with small businesses in Miami, in English and Spanish." />
+
+  <link rel="alternate" hreflang="en" href="https://veloxlab.studio/" />
+  <link rel="alternate" hreflang="x-default" href="https://veloxlab.studio/" />
+  <!-- i18n: English is this file. A later /es/index.html can share styles.css and js/. Add hreflang="es" only when that page exists. Strings to translate are marked data-copy and COPY TODO. -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -17,40 +41,82 @@
       }
     }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://veloxlab.studio/#organization",
+        "name": "VeloxLab Studio",
+        "url": "https://veloxlab.studio/",
+        "email": "hello@veloxlab.studio",
+        "description": "VeloxLab Studio works with small businesses in Miami, in English and Spanish.",
+        "knowsLanguage": ["en", "es"],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Miami",
+          "addressRegion": "FL",
+          "addressCountry": "US"
+        }
+      },
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://veloxlab.studio/#local",
+        "name": "VeloxLab Studio",
+        "url": "https://veloxlab.studio/",
+        "email": "hello@veloxlab.studio",
+        "image": "https://veloxlab.studio/favicon.svg",
+        "description": "VeloxLab Studio works with small businesses in Miami, in English and Spanish.",
+        "knowsLanguage": ["en", "es"],
+        "areaServed": {
+          "@type": "City",
+          "name": "Miami"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Miami",
+          "addressRegion": "FL",
+          "addressCountry": "US"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
+  <!--
+    Copy lives in this file on [data-copy] nodes. Search for "COPY TODO".
+    Do not add marketing headlines here; the designer is still writing them.
+    Locked offer titles: "Creative for your business" and "Development for your needs".
+  -->
+  <a class="skip-link" href="#main">Skip to content</a>
   <div class="grain" aria-hidden="true"></div>
 
-  <!-- 1. NAV -->
   <header class="nav" id="top">
     <a class="wordmark" href="#top" aria-label="VeloxLab home">VELOX<span>LAB</span><i aria-hidden="true"></i></a>
-    <nav class="nav-links" aria-label="Main">
+    <nav class="nav-links" id="nav-links" aria-label="Main">
       <a href="#work">Work</a>
       <a href="#services">Services</a>
       <a href="#free-offer">Free offers</a>
+      <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a class="btn btn-ghost nav-cta" href="#contact">Book a call</a>
-    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+    <a class="btn btn-ghost nav-cta" href="#booking">Book a call</a>
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button>
   </header>
 
-  <main>
-    <!-- 2. HERO -->
-    <section class="hero" aria-label="Intro">
+  <main id="main">
+    <section class="hero" id="hero" aria-labelledby="hero-title">
       <canvas id="hero-gl" aria-hidden="true"></canvas>
       <div class="hero-shade" aria-hidden="true"></div>
 
-      <div class="hero-readout mono" aria-hidden="true">
-        <span>[ HERO · GLASS REFRACTION ]</span>
-        <span>WEBGL · LIVE · <b id="fps">60</b> FPS</span>
-        <span>CURSOR-REACTIVE · BLOOM · GRAIN</span>
-      </div>
-
       <div class="hero-inner wrap">
-        <p class="label mono reveal"><span class="dot"></span>AI-native creative studio · Miami</p>
-        <h1 class="hero-title reveal">Fast work that looks <em>expensive.</em></h1>
-        <p class="hero-sub reveal">We create the content that gets you seen, and build the sites, apps and AI tools that make it work.</p>
-        <div class="hero-ctas reveal">
+        <p class="label mono"><span class="dot"></span>AI-native creative studio · Miami</p>
+        <!-- COPY TODO: hero-title. Previous headline was realtor-specific draft copy. -->
+        <h1 class="hero-title" id="hero-title" data-copy="hero-title">[Placeholder] Hero headline</h1>
+        <p class="hero-sub" data-copy="hero-sub">We create the content that gets you seen, and build the sites, apps and AI tools that make it work.</p>
+        <div class="hero-ctas">
           <a class="btn btn-solid" href="#work">See what we make <span aria-hidden="true">→</span></a>
           <a class="btn btn-ghost" href="#free-offer">Get a free spec video</a>
         </div>
@@ -61,81 +127,83 @@
 
     <div class="ticker mono" aria-hidden="true">
       <div class="ticker-track">
-        <span>Brand identity</span><span>AI ad production</span><span>UGC</span><span>Listing videos</span><span>Motion graphics</span><span>Websites</span><span>Apps &amp; dashboards</span><span>AI agents</span><span>Automations</span>
-        <span>Brand identity</span><span>AI ad production</span><span>UGC</span><span>Listing videos</span><span>Motion graphics</span><span>Websites</span><span>Apps &amp; dashboards</span><span>AI agents</span><span>Automations</span>
+        <span>Brand identity</span><span>AI ad production</span><span>UGC</span><span>Motion graphics</span><span>Websites</span><span>Apps &amp; dashboards</span><span>AI agents</span><span>Automations</span>
+        <span>Brand identity</span><span>AI ad production</span><span>UGC</span><span>Motion graphics</span><span>Websites</span><span>Apps &amp; dashboards</span><span>AI agents</span><span>Automations</span>
       </div>
     </div>
 
-    <!-- 3. SELECTED WORK -->
-    <section class="work wrap" id="work">
+    <section class="work wrap" id="work" aria-labelledby="work-h">
       <div class="sec-head reveal">
         <p class="label mono">(01) Selected work</p>
-        <h2>Selected work</h2>
-        <p class="sec-meta mono">04 pieces · 2026 · all muted loops</p>
+        <h2 id="work-h">Selected work</h2>
+        <!-- COPY TODO: work-meta -->
+        <p class="sec-meta mono" data-copy="work-meta">[Placeholder] Work note</p>
       </div>
 
       <figure class="media media-feature reveal" data-media data-mode="1" data-a="#2EF2FF" data-b="#FF2D87" data-len="8">
-        <canvas></canvas>
+        <canvas aria-hidden="true"></canvas>
         <figcaption class="media-ui mono">
-          <span class="tl"><i class="rec"></i>Featured reel</span>
+          <span class="tl"><i class="rec" aria-hidden="true"></i>Featured reel</span>
           <span class="tr tc">00:00:00</span>
-          <span class="bl">Real estate push-in with 3D type</span>
-          <span class="br">[ Higgsfield · 6–8s loop ]</span>
+          <!-- COPY TODO: work-feature -->
+          <span class="bl" data-copy="work-feature">[Placeholder] Featured piece</span>
+          <!-- COPY TODO: work-feature-meta -->
+          <span class="br" data-copy="work-feature-meta">[Placeholder]</span>
         </figcaption>
       </figure>
 
       <div class="clips">
         <figure class="clip reveal">
           <div class="media" data-media data-mode="4" data-a="#2EF2FF" data-b="#FFB020" data-len="6">
-            <canvas></canvas>
-            <div class="media-ui mono"><span class="tr tc">00:00:00</span></div>
+            <canvas aria-hidden="true"></canvas>
+            <div class="media-ui mono" aria-hidden="true"><span class="tr tc">00:00:00</span></div>
           </div>
-          <figcaption><span class="mono num">01</span>Real estate push-in</figcaption>
+          <!-- COPY TODO: work-clip-1. Was a real-estate-only title. -->
+          <figcaption data-copy="work-clip-1"><span class="mono num">01</span>[Placeholder] Piece title</figcaption>
         </figure>
         <figure class="clip reveal">
           <div class="media" data-media data-mode="2" data-a="#FF2D87" data-b="#FFB020" data-len="6">
-            <canvas></canvas>
-            <div class="media-ui mono"><span class="tr tc">00:00:00</span></div>
+            <canvas aria-hidden="true"></canvas>
+            <div class="media-ui mono" aria-hidden="true"><span class="tr tc">00:00:00</span></div>
           </div>
           <figcaption><span class="mono num">02</span>UGC ad</figcaption>
         </figure>
         <figure class="clip reveal">
           <div class="media" data-media data-mode="3" data-a="#B8FF3C" data-b="#2EF2FF" data-len="6">
-            <canvas></canvas>
-            <div class="media-ui mono"><span class="tr tc">00:00:00</span></div>
+            <canvas aria-hidden="true"></canvas>
+            <div class="media-ui mono" aria-hidden="true"><span class="tr tc">00:00:00</span></div>
           </div>
           <figcaption><span class="mono num">03</span>Motion graphics / 3D type</figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- 4. SERVICES -->
-    <section class="services wrap" id="services">
+    <section class="services wrap" id="services" aria-labelledby="services-h">
       <div class="sec-head reveal">
         <p class="label mono">(02) Services</p>
-        <h2>Two ways we work.</h2>
+        <h2 id="services-h">Two ways we work.</h2>
         <p class="sec-sub">Create gets you seen. Build makes it work.</p>
       </div>
 
       <div class="tracks">
         <article class="track reveal">
           <div class="media" data-media data-mode="0" data-a="#FF2D87" data-b="#FFB020" data-len="6" data-hover>
-            <canvas></canvas>
-            <div class="media-ui mono"><span class="tl">Create loop</span><span class="tr tc">00:00:00</span></div>
+            <canvas aria-hidden="true"></canvas>
+            <div class="media-ui mono" aria-hidden="true"><span class="tl">Create loop</span><span class="tr tc">00:00:00</span></div>
           </div>
           <p class="track-label mono"><span class="sw sw-pink"></span>Track 01 · Create</p>
           <h3>Creative Studio</h3>
           <ul class="rows">
             <li><span class="row-name">Brand Identity</span><span class="row-line">Logo, visual system, voice.</span></li>
-            <li><span class="row-name">AI Content Production</span><span class="row-line">Ads, UGC, listing videos, motion graphics.</span></li>
+            <li><span class="row-name">AI Content Production</span><!-- COPY TODO: services-content. "listing videos" was realtor-only. --><span class="row-line" data-copy="services-content">Ads, UGC, short video, motion graphics.</span></li>
           </ul>
           <a class="track-link" href="#free-offer">Free spec ad video <span aria-hidden="true">→</span></a>
         </article>
 
         <article class="track reveal">
           <div class="media" data-media data-mode="5" data-a="#2EF2FF" data-b="#B8FF3C" data-len="6" data-hover>
-            <canvas></canvas>
-            <div class="media-ui mono"><span class="tl">Build loop · screen rec</span><span class="tr tc">00:00:00</span></div>
+            <canvas aria-hidden="true"></canvas>
+            <div class="media-ui mono" aria-hidden="true"><span class="tl">Build loop · screen rec</span><span class="tr tc">00:00:00</span></div>
           </div>
           <p class="track-label mono"><span class="sw sw-cyan"></span>Track 02 · Build</p>
           <h3>AI &amp; Development</h3>
@@ -149,46 +217,51 @@
       </div>
     </section>
 
-    <!-- 5. START FREE -->
-    <section class="free" id="free-offer">
+    <section class="free" id="free-offer" aria-labelledby="offers-h">
       <div class="free-glow" aria-hidden="true"></div>
       <div class="wrap">
         <div class="sec-head reveal">
           <p class="label mono">(03) Start free</p>
-          <h2>See the work before you pay for it.</h2>
+          <h2 id="offers-h">See the work before you pay for it.</h2>
         </div>
 
         <div class="offers">
-          <div class="offer reveal" id="spec">
+          <article class="offer reveal" id="spec" aria-labelledby="offer-creative-h">
+            <h3 id="offer-creative-h">Creative for your business</h3>
             <p class="track-label mono"><span class="sw sw-pink"></span>Offer 01 · Create</p>
-            <h3>Free spec ad video</h3>
+            <h4>Free spec ad video</h4>
             <p class="offer-line">We make a short ad for your brand. Delivered in [X] days.</p>
-            <form class="form" data-form="spec" novalidate>
-              <label>Business name<input name="business" autocomplete="organization" required placeholder="Velox Realty" /></label>
+            <form class="form" data-form="spec" novalidate data-msg-required="Fill in this field." data-msg-email="Enter a valid email.">
+              <div class="hp" aria-hidden="true">
+                <label>Company website<input name="company_website" tabindex="-1" autocomplete="off" /></label>
+              </div>
+              <!-- COPY TODO: spec-business-label -->
+              <label data-copy="spec-business-label">Business name<input name="business" autocomplete="organization" required placeholder="[Placeholder] Business name" /></label>
               <label>Instagram or website<input name="handle" required placeholder="@yourbrand or yoursite.com" /></label>
               <label>Email<input type="email" name="email" autocomplete="email" required placeholder="you@company.com" /></label>
+              <p class="form-error" role="alert" hidden></p>
               <button class="btn btn-solid" type="submit">Get my free spec video <span aria-hidden="true">→</span></button>
               <p class="form-ok mono" role="status" hidden>Got it. Your spec brief is in the queue.</p>
             </form>
-          </div>
+          </article>
 
-          <div class="offer reveal" id="audit">
+          <article class="offer reveal" id="audit" aria-labelledby="offer-dev-h">
+            <h3 id="offer-dev-h">Development for your needs</h3>
             <p class="track-label mono"><span class="sw sw-cyan"></span>Offer 02 · Build</p>
-            <h3>Free 15-min AI audit</h3>
+            <h4>Free 15-min AI audit</h4>
             <p class="offer-line">We look at how your business runs and show you what to automate first.</p>
             <ul class="bullets">
               <li><span class="mono">a</span>Where you're losing time or leads</li>
               <li><span class="mono">b</span>1–2 quick AI wins you can ship this month</li>
               <li><span class="mono">c</span>A ballpark for a site, app or agent</li>
             </ul>
-            <a class="btn btn-cyan" href="#contact">Book my free audit <span aria-hidden="true">→</span></a>
-          </div>
+            <a class="btn btn-cyan" href="#booking">Book my free audit <span aria-hidden="true">→</span></a>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- 6. HOW IT WORKS -->
-    <section class="how wrap" aria-labelledby="how-h">
+    <section class="how wrap" id="process" aria-labelledby="how-h">
       <div class="sec-head reveal">
         <p class="label mono">(04) Process</p>
         <h2 id="how-h">How it works</h2>
@@ -200,79 +273,119 @@
       </ol>
     </section>
 
-    <!-- 7. CONTACT -->
-    <section class="contact" id="contact">
+    <section class="spotlight wrap" id="real-estate" aria-labelledby="spotlight-h">
+      <div class="sec-head reveal">
+        <p class="label mono">(05) Example industry</p>
+        <h2 id="spotlight-h">Real estate spotlight</h2>
+      </div>
+      <!-- COPY TODO: spotlight-body -->
+      <p class="placeholder-copy reveal" data-copy="spotlight-body">[Placeholder] Real estate is one example of a small business VeloxLab can work with. Case study, clips, and quotes are not written yet.</p>
+    </section>
+
+    <section class="about wrap" id="about" aria-labelledby="about-h">
+      <div class="sec-head reveal">
+        <p class="label mono">(06) About</p>
+        <!-- COPY TODO: about-title -->
+        <h2 id="about-h" data-copy="about-title">[Placeholder] About</h2>
+      </div>
+      <!-- COPY TODO: about-body -->
+      <p class="placeholder-copy reveal" data-copy="about-body">[Placeholder] About VeloxLab Studio. English and Spanish. Founder story and credentials are not written yet.</p>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-h">
       <div class="media contact-bg" data-media data-mode="0" data-a="#2EF2FF" data-b="#FF2D87" data-len="8" aria-hidden="true"><canvas></canvas></div>
       <div class="wrap contact-inner">
-        <p class="label mono reveal">(05) Contact</p>
-        <h2 class="contact-title reveal">Ready to <em>move?</em></h2>
+        <p class="label mono reveal">(07) Contact</p>
+        <h2 class="contact-title reveal" id="contact-h">Ready to <em>move?</em></h2>
         <p class="contact-line reveal">Book a call or send a message. We reply within [X] hours.</p>
         <div class="hero-ctas reveal">
-          <a class="btn btn-solid" href="#" data-cal>Book a call <span aria-hidden="true">→</span></a>
+          <a class="btn btn-solid" href="#booking" data-cal>Book a call <span aria-hidden="true">→</span></a>
           <a class="btn btn-ghost" href="mailto:hello@veloxlab.studio">hello@veloxlab.studio</a>
         </div>
+
+        <!-- BOOKING SLOT: Cal.com embed. Do not load a third-party script until the owner supplies the link. -->
+        <div class="booking-slot reveal" id="booking">
+          <p class="label mono">Booking</p>
+          <!-- COPY TODO: booking-note -->
+          <p class="placeholder-copy" data-copy="booking-note">[Placeholder] Cal.com embed will sit here.</p>
+        </div>
+
+        <form class="form reveal" data-form="contact" novalidate data-msg-required="Fill in this field." data-msg-email="Enter a valid email.">
+          <div class="hp" aria-hidden="true">
+            <label>Company website<input name="company_website" tabindex="-1" autocomplete="off" /></label>
+          </div>
+          <label>Name<input name="name" autocomplete="name" required /></label>
+          <label>Email<input type="email" name="email" autocomplete="email" required /></label>
+          <label>Message<textarea name="message" required></textarea></label>
+          <p class="form-error" role="alert" hidden></p>
+          <button class="btn btn-solid" type="submit">Send a message <span aria-hidden="true">→</span></button>
+          <p class="form-ok mono" role="status" hidden>Got it. Your message is in the queue.</p>
+        </form>
       </div>
     </section>
   </main>
 
-  <!-- 8. FOOTER -->
   <footer class="footer wrap">
     <span class="mono">© 2026 VeloxLab Studio · Miami</span>
-    <nav class="socials mono" aria-label="Social">
-      <a href="#">Instagram</a><a href="#">TikTok</a><a href="#">LinkedIn</a>
+    <!-- COPY TODO: social-urls. Names only until the owner supplies profile links. -->
+    <nav class="socials mono" aria-label="Social" data-copy="social-urls">
+      <span>Instagram</span><span>TikTok</span><span>LinkedIn</span>
     </nav>
   </footer>
 
-  <!-- BOT: VELO -->
-  <div class="velo" data-state="hidden" data-view="greet">
-    <div class="velo-panel" role="dialog" aria-label="VELO assistant">
+  <div class="velo" data-state="hidden" data-view="greet" inert>
+    <div class="velo-panel" role="dialog" aria-label="VELO assistant" inert>
       <div class="velo-head">
-        <span class="mono"><i class="live"></i>VELO</span>
-        <button class="velo-x" aria-label="Close assistant">×</button>
+        <span class="mono"><i class="live" aria-hidden="true"></i>VELO</span>
+        <button class="velo-x" type="button" aria-label="Close assistant">×</button>
       </div>
 
       <div class="velo-view" data-v="greet">
         <p class="velo-say">Hey! What would you like to do today?</p>
         <div class="velo-choices">
-          <button data-go="spec">Get a free spec video <span>→</span></button>
-          <button data-go="audit">Get a free AI audit <span>→</span></button>
-          <button data-go="work">See our work <span>→</span></button>
-          <button data-go="human">Talk to a human <span>→</span></button>
+          <button type="button" data-go="spec">Get a free spec video <span aria-hidden="true">→</span></button>
+          <button type="button" data-go="audit">Get a free AI audit <span aria-hidden="true">→</span></button>
+          <button type="button" data-go="work">See our work <span aria-hidden="true">→</span></button>
+          <button type="button" data-go="human">Talk to a human <span aria-hidden="true">→</span></button>
         </div>
       </div>
 
       <div class="velo-view" data-v="spec">
         <p class="velo-say">Nice. Tell me about your business:</p>
-        <form class="form form-mini" data-form="velo-spec" novalidate>
+        <form class="form form-mini" data-form="velo-spec" novalidate data-msg-required="Fill in this field." data-msg-email="Enter a valid email.">
+          <div class="hp" aria-hidden="true">
+            <label>Company website<input name="company_website" tabindex="-1" autocomplete="off" /></label>
+          </div>
           <label>Business name<input name="business" required /></label>
           <label>Instagram or website<input name="handle" required /></label>
           <label>Email<input type="email" name="email" required /></label>
+          <p class="form-error" role="alert" hidden></p>
           <button class="btn btn-solid" type="submit">Send it →</button>
           <p class="form-ok mono" role="status" hidden>Sent. We'll be in touch.</p>
         </form>
-        <button class="velo-back mono" data-go="greet">← Back</button>
+        <button class="velo-back mono" type="button" data-go="greet">← Back</button>
       </div>
 
       <div class="velo-view" data-v="audit">
         <p class="velo-say">15 minutes, no pitch. We'll show you what to automate first.</p>
-        <a class="btn btn-cyan" href="#contact" data-cal>Book my free audit →</a>
-        <button class="velo-back mono" data-go="greet">← Back</button>
+        <a class="btn btn-cyan" href="#booking" data-cal>Book my free audit →</a>
+        <button class="velo-back mono" type="button" data-go="greet">← Back</button>
       </div>
 
       <div class="velo-view" data-v="human">
         <p class="velo-say">Sure, pick what works for you:</p>
         <div class="velo-choices">
-          <a href="#contact" data-cal>Book a 15-min call <span>→</span></a>
-          <a href="#contact" data-close>Leave a message <span>→</span></a>
-          <a href="#" data-whatsapp>WhatsApp <span>→</span></a>
+          <a href="#booking" data-cal>Book a 15-min call <span aria-hidden="true">→</span></a>
+          <a href="#contact" data-close>Leave a message <span aria-hidden="true">→</span></a>
+          <a href="#contact" data-whatsapp>WhatsApp <span aria-hidden="true">→</span></a>
         </div>
-        <button class="velo-back mono" data-go="greet">← Back</button>
+        <button class="velo-back mono" type="button" data-go="greet">← Back</button>
       </div>
     </div>
 
-    <button class="velo-avatar" aria-label="Open VELO assistant">
-      <span class="blob"></span>
-      <span class="eyes"><i></i><i></i></span>
+    <button class="velo-avatar" type="button" aria-label="Open VELO assistant">
+      <span class="blob" aria-hidden="true"></span>
+      <span class="eyes" aria-hidden="true"><i></i><i></i></span>
     </button>
   </div>
 
