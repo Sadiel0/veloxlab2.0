@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
+// Shipped files only. design/ is source material and keeps the tokens on purpose.
 const files = ["index.html", "es/index.html", "privacy.html", "styles.css"];
 
 function addJs(dir) {

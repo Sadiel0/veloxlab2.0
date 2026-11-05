@@ -16,7 +16,7 @@ Open http://127.0.0.1:5173/ and http://127.0.0.1:5173/es/
 
 The visual system is Molten Ace: obsidian, bone, and amber. Headlines are Unbounded and body text is Manrope, self-hosted from Google Fonts (SIL Open Font License) in `assets/fonts/`.
 
-The hero is a muted, ping-pong video (`assets/hero/`). The live 3D figure is a later phase and is not on the page. `prefers-reduced-motion` shows the still from `D1-keyart` instead of the video.
+The hero is a muted, ping-pong video in `assets/hero/` (`hero-1080` and `hero-720`, MP4 and WebM). The live 3D figure is a later phase and is not on the page. `prefers-reduced-motion` shows `assets/hero/poster.webp` (AVIF alongside it), made from the key art.
 
 ## Copy
 
@@ -48,6 +48,28 @@ The guarantee and scarcity lines stay in the HTML so this check keeps failing un
 ## Contact
 
 Both forms check required fields and a honeypot (`company_website`). They do not POST while `ready` is false in `js/config.js`. There is no Cal.com embed script. The booking buttons use the Cal.com URLs from that same file.
+
+## What ships
+
+These files are in git and are what the pages load:
+
+- Hero clip: `assets/hero/hero-1080.mp4`, `hero-1080.webm`, `hero-720.mp4`, `hero-720.webm`
+- Poster and reduced-motion still: `assets/hero/poster.webp`, `assets/hero/poster.avif`
+- Logos: `assets/logo/veloxlab-primary.svg`, `veloxlab-icon.svg`, `veloxlab-watermark.svg`
+- Favicon: `favicon.svg`
+- Social image: `assets/og.jpg`
+- Fonts: `assets/fonts/`
+
+## Design source
+
+`design/` is the source for that work. The pages do not link to it.
+
+- `design/style-guide.md` is the v2.1 guide
+- `design/mockups/home-desktop-molten.jpg`, `home-mobile-molten.jpg`, `D1-mockup.jpg`, `offers-split.jpg`
+- `design/keyart/D1-keyart.jpg` is the original still. The site uses the smaller poster above.
+- `design/source/hero-loop-molten.mp4` is the raw loop. The site plays the re-encoded files in `assets/hero/`.
+
+There is no separate web root yet, because hosting is not chosen and the local server is the repo folder. `design/` can be fetched during that local preview. It is not part of the site. When a host is chosen, publish the HTML, CSS, `js/`, `favicon.svg`, and `assets/` only. Leave `design/` out of that bundle. Do not add a deploy config for this.
 
 ## Hosting
 
