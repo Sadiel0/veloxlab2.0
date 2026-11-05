@@ -1,6 +1,6 @@
 # VeloxLab Studio
 
-Static site for VeloxLab Studio. HTML, CSS, and one vanilla script. No framework and no build step.
+Static site for VeloxLab Studio. HTML, CSS, and vanilla scripts. No framework and no build step.
 
 ## Run locally
 
@@ -20,17 +20,34 @@ The hero is a muted, ping-pong video (`assets/hero/`). The live 3D figure is a l
 
 ## Copy
 
-Headlines and the offer titles come from the Molten Ace style guide. Strings the guide did not translate stay in English on `/es/` and are marked `COPY TODO`.
+Copy follows the Molten Ace style guide v2.1. The brand name is always **VeloxLab**. Nav labels, the process steps, and the bilingual quote stay in English on `/es/` because the guide did not supply Spanish for them. Do not add stats, prices, or a made-up WhatsApp number.
 
-Reel, selected work, the real-estate outcomes, the creative-half loop, the `[X] days` turnaround, and the Cal.com slot are placeholders. Do not add stats or a made-up WhatsApp number.
+Unknowns are written `[PLACEHOLDER: …]`. Business commitments use `[PROPOSED - Sadiel to approve]`. Every element that holds one of those has `data-placeholder="P##"` (P01–P19 in the guide). Prices (P10) are left off the page on purpose.
 
-The brand name is always **VeloxLab**.
+Cal.com URLs, the WhatsApp link, the contact email, the social profile URLs, and the form endpoint live only in `js/config.js` as `window.VELOX_CONFIG`. The pages point at those keys with `data-config`. `js/main.js` copies them onto the controls. Keep `ready` set to `false` until every string in that file is a real value.
+
+Before a production deploy, run:
+
+```bash
+npm run check:placeholders
+```
+
+That runs `node scripts/check-placeholders.mjs`. It exits with an error if `index.html`, `es/index.html`, `privacy.html`, `styles.css`, or any file in `js/` still contains a `data-placeholder` attribute or the tokens `PLACEHOLDER` or `PROPOSED`. It does not read this README or `docs/`, which name those tokens on purpose. The check is the launch gate. It is not wired to a host.
+
+### Guarantee and scarcity (P16, P17)
+
+The guarantee and scarcity lines stay in the HTML so this check keeps failing until Sadiel approves them. Visitors do not see them on the production host.
+
+`js/main.js` reveals elements marked `data-preview-only` only when:
+
+- the URL has `?preview=1`, or
+- `preview` is not `0` and the hostname is not `veloxlab.studio` or `www.veloxlab.studio`.
+
+`?preview=0` hides them on every host, including localhost. On `veloxlab.studio` they stay hidden unless the URL has `?preview=1`. A preview is not an approval. After Sadiel approves the wording, replace the proposed text (or delete the line), remove `data-preview-only` and `hidden` if the line should ship, and remove `data-placeholder` so the check can pass.
 
 ## Contact
 
-Both forms check required fields and a honeypot (`company_website`). They do not submit anywhere. The hand-off is marked `TODO(owner)` in `js/main.js`.
-
-`#booking` is an empty slot for a Cal.com embed. Do not add the embed script until the owner supplies the link.
+Both forms check required fields and a honeypot (`company_website`). They do not POST while `ready` is false in `js/config.js`. There is no Cal.com embed script. The booking buttons use the Cal.com URLs from that same file.
 
 ## Hosting
 

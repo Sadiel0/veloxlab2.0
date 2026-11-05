@@ -1,4 +1,27 @@
 (function () {
+  var config = window.VELOX_CONFIG || {};
+
+  document.querySelectorAll("[data-config]").forEach(function (el) {
+    var path = el.getAttribute("data-config").split(".");
+    var value = path.reduce(function (obj, key) { return obj && obj[key]; }, config);
+    if (!value) return;
+    if (el.getAttribute("data-config") === "email") {
+      el.textContent = value;
+      el.href = "mailto:" + value;
+      return;
+    }
+    if (el.tagName === "A") el.href = value;
+    if (el.tagName === "FORM") el.setAttribute("data-endpoint", value);
+  });
+
+  var previewFlag = new URLSearchParams(window.location.search).get("preview");
+  var host = window.location.hostname;
+  var production = host === "veloxlab.studio" || host === "www.veloxlab.studio";
+  var showProposed = previewFlag === "1" || (previewFlag !== "0" && !production);
+  if (showProposed) {
+    document.querySelectorAll("[data-preview-only]").forEach(function (el) { el.hidden = false; });
+  }
+
   var nav = document.querySelector(".nav");
   var toggle = document.querySelector(".nav-toggle");
   var sheet = document.getElementById("nav-sheet");
@@ -188,7 +211,7 @@
       event.preventDefault();
       if (ok) ok.hidden = true;
       var trap = form.querySelector('[name="company_website"]');
-      // TODO(owner): there is no form endpoint yet. A filled honeypot is dropped.
+      // A filled honeypot is dropped. Nothing is posted until config.ready is true.
       if (trap && trap.value) return;
       var bad = null;
       form.querySelectorAll("input, select, textarea").forEach(function (field) {
@@ -211,7 +234,8 @@
       if (ok) ok.hidden = false;
       var button = form.querySelector('[type="submit"]');
       if (button) button.disabled = true;
-      // TODO(owner): POST the payload once an endpoint exists.
+      /* Submissions stay on this page until js/config.js ready is true and formEndpoint is a real URL. */
+      if (!config.ready) return;
     });
   });
 })();
