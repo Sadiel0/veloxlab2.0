@@ -1,6 +1,6 @@
 # VeloxLab Studio
 
-Static site for VeloxLab Studio. HTML, CSS, and one vanilla script. No framework and no build step.
+Static site for VeloxLab Studio. HTML, CSS, and vanilla scripts. No framework and no build step.
 
 ## Run locally
 
@@ -35,11 +35,11 @@ If the device is slow, the stage turns off bloom and lowers resolution after a f
 
 ## Motion
 
-`js/main.js` has two parts: the original page logic (nav, forms, video controls) and a motion layer. The motion layer adds:
+`js/main.js` has two parts: the original page logic (nav, forms, config links, ticker pause) and a motion layer. The motion layer adds:
 
 - Lenis smooth scrolling (`js/vendor/lenis.min.js`, MIT) with eased anchor jumps
-- a hero intro, scroll-out (the frame shrinks and the words drift apart), ember particles, film grain and a cursor glow
-- a services marquee built from the service names on the page, numbered section labels taken from the nav, and serif accents on headings
+- a hero intro and scroll-out (the words drift apart as the robot dissolves)
+- display type for the service ticker (its pause button stays), numbered section labels taken from the nav, and serif accents on headings
 - word-by-word heading reveals, staggered reveals for content, the process progress line and a rising footer watermark
 - a custom cursor, magnetic buttons and card tilt on mouse and trackpad only
 
@@ -47,17 +47,62 @@ The decorative parts are injected by script, so EN and ES share the same code. R
 
 ## Copy
 
-Headlines and the offer titles come from the Molten Ace style guide. Strings the guide did not translate stay in English on `/es/` and are marked `COPY TODO`.
+Homepage wording comes from `design/copy-v3.md` (v3.2). `design/style-guide.md` (v2.2) owns design, layout, tokens, and motion. Where the two disagree on copy, v3.2 wins. The brand name is always **VeloxLab**. Spanish uses usted. Do not add stats, prices, or a made-up WhatsApp number.
 
-Reel, selected work, the real-estate outcomes, the creative-half loop, the `[X] days` turnaround, and the Cal.com slot are placeholders. Do not add stats or a made-up WhatsApp number.
+Unknowns are written `[PLACEHOLDER: …]`. Every element that holds one has `data-placeholder="P##"`. Prices (P10) are left off the page on purpose. Spec-ad delivery is 5 days and the reply time is 24 hours. Those are real values from v3.2. The first-cut and demo turnaround (P07) stays a placeholder.
 
-The brand name is always **VeloxLab**.
+Cal.com URLs, the WhatsApp link, the contact email, the social profile URLs, and the form endpoint live only in `js/config.js` as `window.VELOX_CONFIG`. The pages point at those keys with `data-config`. `js/main.js` copies them onto the controls. Replace `formEndpoint` with a real `https://` URL before leads can send. The provider is not chosen. The POST is JSON (`Accept` and `Content-Type` `application/json`), which Formspree and Web3Forms both accept.
+
+A form shows its thank-you text only after that POST returns a 2xx status. While the endpoint is still unset, or the request fails, the form shows an error with the WhatsApp and email links and does not show the thank-you. `node --test scripts/form-submit.test.mjs` covers that rule.
+
+Before a production deploy, run:
+
+```bash
+npm run check:placeholders
+```
+
+That runs `node scripts/check-placeholders.mjs`. It exits with an error if `index.html`, `es/index.html`, `privacy.html`, `styles.css`, or any file in `js/` still contains a `data-placeholder` attribute or the tokens `PLACEHOLDER` or `PROPOSED`. It does not read this README or `docs/`, which name those tokens on purpose. The check is the launch gate. It is not wired to a host.
+
+### Guarantee and limited spots (P16, P17)
+
+Sadiel confirmed the guarantee lines, so they are visible on every host, including production. Those sentences have no placeholder.
+
+The limited-spots lines stay preview-only. The client and build counts inside them are still `[PLACEHOLDER: number]` (P17), so the launch check keeps failing until those numbers are filled in.
+
+`showLimitedSpots` in `js/config.js` is the production switch for those lines only. It is `false`. Set that one line to `true` to show them on veloxlab.studio.
+
+While the switch is off, `js/commitments.js` reveals the limited-spots lines (`data-preview-only`) only when:
+
+- the URL has `?preview=1`, or
+- `preview` is not `0` and the hostname is not `veloxlab.studio` or `www.veloxlab.studio`.
+
+`?preview=0` hides the limited-spots lines on every host, including localhost. On `veloxlab.studio` they stay hidden unless the switch is `true` or the URL has `?preview=1`. The guarantee lines are not affected.
 
 ## Contact
 
-Both forms check required fields and a honeypot (`company_website`). They do not submit anywhere. The hand-off is marked `TODO(owner)` in `js/main.js`.
+Both forms check required fields and a honeypot (`company_website`). A filled honeypot is dropped and is not treated as a success. There is no Cal.com embed script. The booking buttons use the Cal.com URLs from `js/config.js`.
 
-`#booking` is an empty slot for a Cal.com embed. Do not add the embed script until the owner supplies the link.
+## What ships
+
+These files are in git and are what the pages load:
+
+- Hero clip: `assets/hero/hero-1080.mp4`, `hero-1080.webm`, `hero-720.mp4`, `hero-720.webm`
+- Poster and reduced-motion still: `assets/hero/poster.webp`, `assets/hero/poster.avif`
+- Logos: `assets/logo/veloxlab-primary.svg`, `veloxlab-icon.svg`, `veloxlab-watermark.svg`
+- Favicon: `favicon.svg`
+- Social image: `assets/og.jpg`
+- Fonts: `assets/fonts/`
+
+## Design source
+
+`design/` is source and must not be deployed.
+
+`design/` holds the copy and the style guide. The pages do not link to it.
+
+- `design/style-guide.md` is the v2.2 guide (design, layout, tokens, motion)
+- `design/copy-v3.md` is the v3.2 homepage copy. It wins wherever the guide still shows older wording.
+
+There is no separate web root yet, because hosting is not chosen and the local server is the repo folder. `design/` can be fetched during that local preview. It is not part of the site. When a host is chosen, publish the HTML, CSS, `js/`, `favicon.svg`, and `assets/` only. Leave `design/` out of that bundle. Do not add a deploy config for this.
 
 ## Hosting
 
