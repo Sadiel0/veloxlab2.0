@@ -1,6 +1,6 @@
 # VeloxLab Studio
 
-Static landing page for VeloxLab Studio. HTML, CSS, and vanilla JS. No build step and no framework.
+Static site for VeloxLab Studio. HTML, CSS, and one vanilla script. No framework and no build step.
 
 ## Run locally
 
@@ -10,25 +10,25 @@ From this folder:
 python3 -m http.server 5173
 ```
 
-Open http://127.0.0.1:5173/
+Open http://127.0.0.1:5173/ and http://127.0.0.1:5173/es/
 
-Use a static file server. Opening `index.html` as a file will not load the ES module hero.
+## Design
+
+The visual system is Molten Ace: obsidian, bone, and amber. Headlines are Unbounded and body text is Manrope, self-hosted from Google Fonts (SIL Open Font License) in `assets/fonts/`.
+
+The hero is a muted, ping-pong video (`assets/hero/`). The live 3D figure is a later phase and is not on the page. `prefers-reduced-motion` shows the still from `D1-keyart` instead of the video.
 
 ## Copy
 
-Final headlines are not written yet. Visible draft strings that still need the designer are marked `[Placeholder]` and `<!-- COPY TODO -->`, and the nodes carry `data-copy`. Search this repo for `COPY TODO`.
+Headlines and the offer titles come from the Molten Ace style guide. Strings the guide did not translate stay in English on `/es/` and are marked `COPY TODO`.
 
-Two offer titles are final and should not be rewritten: **Creative for your business** and **Development for your needs**.
+Reel, selected work, the real-estate outcomes, the creative-half loop, the `[X] days` turnaround, and the Cal.com slot are placeholders. Do not add stats or a made-up WhatsApp number.
 
-Do not add stats, client counts, or other made-up numbers. The brand name is always **VeloxLab**, never Velox.
+The brand name is always **VeloxLab**.
 
-## English and Spanish
+## Contact
 
-`index.html` is the English page (`lang="en"`). Spanish is not built. When it is, add `es/index.html` that reuses `styles.css` and `js/`, translate each `data-copy` node, and only then add `<link rel="alternate" hreflang="es">`. Do not point hreflang at a missing URL.
-
-## Contact and booking
-
-The contact form checks required fields and a honeypot (`company_website`). It does not submit anywhere. The hand-off is marked `TODO(owner)` in `js/main.js`.
+Both forms check required fields and a honeypot (`company_website`). They do not submit anywhere. The hand-off is marked `TODO(owner)` in `js/main.js`.
 
 `#booking` is an empty slot for a Cal.com embed. Do not add the embed script until the owner supplies the link.
 
