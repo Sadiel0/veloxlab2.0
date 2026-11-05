@@ -32,6 +32,7 @@
   <link rel="preload" href="/assets/fonts/xn7gYHE41ni1AdIRggexSg.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/fonts/fonts.css" />
   <link rel="stylesheet" href="/styles.css" />
+  <script src="/js/boot.js"></script>
 
   <script type="application/ld+json">
   {
@@ -63,14 +64,6 @@
           "addressRegion": "FL",
           "addressCountry": "US"
         }
-      },
-      {
-        "@type": "VideoObject",
-        "name": "VeloxLab hero",
-        "description": "Brand, video, websites and AI automations for small businesses. Miami-based, en español también.",
-        "thumbnailUrl": "https://veloxlab.studio/assets/hero/poster.webp",
-        "contentUrl": "https://veloxlab.studio/assets/hero/hero-1080.mp4",
-        "uploadDate": "2026-11-05"
       }
     ]
   }
@@ -126,16 +119,9 @@
         <div class="hero-media">
           <picture>
             <source srcset="/assets/hero/poster.avif" type="image/avif" />
-            <img class="hero-still" src="/assets/hero/poster.webp" alt="" width="1280" height="720" decoding="async" fetchpriority="low" />
+            <img class="hero-still" src="/assets/hero/poster.webp" alt="" width="1280" height="720" decoding="async" fetchpriority="high" />
           </picture>
-          <video class="hero-loop" poster="/assets/hero/poster.webp" muted playsinline loop preload="metadata" aria-hidden="true" tabindex="-1">
-            <source src="/assets/hero/hero-1080.webm" type="video/webm" media="(min-width: 1024px)" />
-            <source src="/assets/hero/hero-720.webm" type="video/webm" />
-            <source src="/assets/hero/hero-1080.mp4" type="video/mp4" media="(min-width: 1024px)" />
-            <source src="/assets/hero/hero-720.mp4" type="video/mp4" />
-          </video>
           <div class="hero-scrim"></div>
-          <button class="hero-pause" type="button" aria-pressed="false" aria-label="Pause background video"></button>
         </div>
 
         <div class="hero-copy">
@@ -153,7 +139,7 @@
       <h2 class="sr-only" id="reel-title">Reel</h2>
       <!-- PLACEHOLDER: no showreel file yet. This is not the hero loop. -->
       <div class="reel-frame" role="img" aria-label="PLACEHOLDER: 60-second showreel">
-        <p><span class="mark">Placeholder</span><strong>Showreel</strong></p>
+        <p><span class="play-orb" aria-hidden="true"></span><span class="mark">Placeholder</span><strong>Showreel</strong></p>
       </div>
       <p class="reel-cap">60-second reel · brands, food, retail, web, real estate (PLACEHOLDER)</p>
     </section>
@@ -193,7 +179,7 @@
 
     <section class="band" id="services" aria-labelledby="services-title">
       <div class="wrap offers-intro">
-        <h2 id="services-title">See the work before you pay for it.</h2>
+        <h2 id="services-title">See the work <span class="accent">before</span> you pay for it.</h2>
         <p class="lede">Create gets you seen. Build makes it work.</p>
       </div>
       <div class="split-stage">
@@ -354,6 +340,8 @@
     <p class="legal">© 2026 VeloxLab Studio · <a href="/privacy.html">Privacy</a></p>
   </footer>
 
+  <script src="/js/vendor/lenis.min.js" defer></script>
   <script src="/js/main.js" defer></script>
+  <script type="module" src="/js/stage.js"></script>
 </body>
 </html>
