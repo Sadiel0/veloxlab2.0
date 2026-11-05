@@ -1,10 +1,6 @@
 // Hero: floating glass shards refracting a spectral light field. Cursor-reactive, bloom, ACES.
-import * as THREE from 'three';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+// A video hero replaces this scene in the next pass. Until then, skip it on phones and
+// reduced motion, and import Three only after the first paint so it cannot block LCP.
 
 const canvas = document.getElementById('hero-gl');
 const hero = document.querySelector('.hero');
@@ -12,7 +8,14 @@ const fpsEl = document.getElementById('fps');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const small = matchMedia('(max-width: 860px)').matches;
 
-function init() {
+async function init() {
+  const THREE = await import('three');
+  const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
+  const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
+  const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
+  const { UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js');
+  const { OutputPass } = await import('three/addons/postprocessing/OutputPass.js');
+
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
@@ -148,7 +151,6 @@ function init() {
   }, { passive: true });
 
   let visible = true;
-  new IntersectionObserver(([en]) => (visible = en.isIntersecting)).observe(hero);
 
   // ---- loop ----
   const clock = new THREE.Clock();
@@ -181,14 +183,27 @@ function init() {
   }
 
   let first = true;
-  renderer.setAnimationLoop(() => {
+  const onVisibility = () => {
+    const run = visible && !document.hidden;
+    renderer.setAnimationLoop(run ? loop : null);
+  };
+  function loop() {
     const dt = Math.min(clock.getDelta(), 0.05);
-    if (!visible || document.hidden) return;
     frame(clock.elapsedTime, dt);
     if (first) { canvas.classList.add('ready'); first = false; }
     frames++; acc += dt;
     if (acc >= 0.5 && fpsEl) { fpsEl.textContent = Math.round(frames / acc); frames = 0; acc = 0; }
-  });
+  }
+  document.addEventListener('visibilitychange', onVisibility);
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; onVisibility(); }).observe(hero);
+  onVisibility();
 }
 
-init();
+function startHero() {
+  if (!canvas || !hero || reduce || small) return;
+  init();
+}
+
+window.addEventListener('load', () => {
+  requestAnimationFrame(() => requestAnimationFrame(startHero));
+}, { once: true });

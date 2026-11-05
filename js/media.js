@@ -2,6 +2,25 @@
 // Swap any [data-media] block for <video autoplay muted loop playsinline> once real clips exist.
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const small = matchMedia('(max-width: 860px)').matches;
+  const saveData = !!(navigator.connection && navigator.connection.saveData);
+
+  // These tiles are stand-in shaders, not the final films. A slow or software
+  // GL device keeps the CSS poster instead of running a full-viewport loop.
+  function softwareGL() {
+    try {
+      const gl = document.createElement('canvas').getContext('webgl');
+      if (!gl) return true;
+      const ext = gl.getExtension('WEBGL_debug_renderer_info');
+      const name = ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : '';
+      const lose = gl.getExtension('WEBGL_lose_context');
+      if (lose) lose.loseContext();
+      return /swiftshader|llvmpipe|softpipe|software/i.test(name);
+    } catch (err) {
+      return true;
+    }
+  }
+  if (reduce || small || saveData || softwareGL()) return;
 
   const VERT = `attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }`;
 
