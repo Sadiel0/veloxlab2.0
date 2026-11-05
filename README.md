@@ -68,6 +68,8 @@ These files are in git and are what the pages load:
 
 ## Design source
 
+`design/` is source and must not be deployed.
+
 `design/` holds the copy and the style guide. The pages do not link to it.
 
 - `design/style-guide.md` is the v2.2 guide (design, layout, tokens, motion)
