@@ -33,6 +33,7 @@
     toggle.setAttribute('aria-label', 'Open menu');
     if (lenis) lenis.scrollTo(el, { offset: id === '#top' ? 0 : -70 });
     else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    if (el.id === 'main') el.focus({ preventScroll: true });
   });
 
   // nav state
