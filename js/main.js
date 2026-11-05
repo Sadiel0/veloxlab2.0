@@ -1,4 +1,28 @@
 (function () {
+  var config = window.VELOX_CONFIG || {};
+
+  document.querySelectorAll("[data-config]").forEach(function (el) {
+    var path = el.getAttribute("data-config").split(".");
+    var value = path.reduce(function (obj, key) { return obj && obj[key]; }, config);
+    if (!value) return;
+    if (el.getAttribute("data-config") === "email") {
+      el.textContent = value;
+      el.href = "mailto:" + value;
+      return;
+    }
+    if (el.tagName === "A") el.href = value;
+    if (el.tagName === "FORM") el.setAttribute("data-endpoint", value);
+  });
+
+  var commitments = window.VELOX_COMMITMENTS;
+  if (commitments && commitments.limitedSpotsVisible({
+    showLimitedSpots: config.showLimitedSpots,
+    preview: new URLSearchParams(window.location.search).get("preview"),
+    hostname: window.location.hostname
+  })) {
+    document.querySelectorAll("[data-preview-only]").forEach(function (el) { el.hidden = false; });
+  }
+
   var nav = document.querySelector(".nav");
   var toggle = document.querySelector(".nav-toggle");
   var sheet = document.getElementById("nav-sheet");
@@ -61,6 +85,23 @@
       if (event.key === "Escape") closeSheet();
     });
   }
+
+  document.querySelectorAll(".ticker").forEach(function (ticker) {
+    var btn = ticker.querySelector(".ticker-pause");
+    if (!btn) return;
+    if (reduce) {
+      btn.hidden = true;
+      return;
+    }
+    btn.addEventListener("click", function () {
+      var paused = !ticker.classList.contains("is-paused");
+      ticker.classList.toggle("is-paused", paused);
+      btn.setAttribute("aria-pressed", String(paused));
+      var play = btn.getAttribute("data-label-play");
+      var stop = btn.getAttribute("data-label-pause");
+      btn.setAttribute("aria-label", paused ? play : stop);
+    });
+  });
 
   var video = document.querySelector(".hero-loop");
   var pauseBtn = document.querySelector(".hero-pause");
@@ -181,16 +222,18 @@
 
   document.querySelectorAll("form[data-form]").forEach(function (form) {
     var err = form.querySelector(".form-error");
+    var sendErr = form.querySelector(".form-send-error");
     var ok = form.querySelector(".form-ok");
     var requiredMsg = form.getAttribute("data-msg-required") || "Fill in this field.";
     var emailMsg = form.getAttribute("data-msg-email") || "Enter a valid email.";
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       if (ok) ok.hidden = true;
+      if (sendErr) sendErr.hidden = true;
       var trap = form.querySelector('[name="company_website"]');
-      // TODO(owner): there is no form endpoint yet. A filled honeypot is dropped.
       if (trap && trap.value) return;
       var bad = null;
+      var fields = {};
       form.querySelectorAll("input, select, textarea").forEach(function (field) {
         if (field.name === "company_website") return;
         field.removeAttribute("aria-invalid");
@@ -198,6 +241,7 @@
         var badEmail = field.type === "email" && field.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value);
         if ((empty || badEmail) && !bad) bad = field;
         if (empty || badEmail) field.setAttribute("aria-invalid", "true");
+        if (field.name) fields[field.name] = field.value;
       });
       if (bad) {
         if (err) {
@@ -208,10 +252,24 @@
         return;
       }
       if (err) err.hidden = true;
-      if (ok) ok.hidden = false;
       var button = form.querySelector('[type="submit"]');
       if (button) button.disabled = true;
-      // TODO(owner): POST the payload once an endpoint exists.
+      var payload = {
+        form: form.getAttribute("data-form"),
+        offer: form.getAttribute("data-offer") || form.getAttribute("data-form"),
+        language: document.documentElement.lang,
+        page: window.location.pathname
+      };
+      Object.keys(fields).forEach(function (key) { payload[key] = fields[key]; });
+      var forms = window.VELOX_FORMS;
+      forms.postLead(form.getAttribute("data-endpoint") || config.formEndpoint, payload).then(function (result) {
+        if (forms.formOutcome(result) === "success") {
+          if (ok) ok.hidden = false;
+          return;
+        }
+        if (button) button.disabled = false;
+        if (sendErr) sendErr.hidden = false;
+      });
     });
   });
 })();
