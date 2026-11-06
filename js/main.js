@@ -220,6 +220,31 @@
     }
   }
 
+  function showSendError(sendErr, message) {
+    if (!sendErr) return;
+    var fallback = sendErr.querySelector(".form-fallback");
+    var lead = sendErr.querySelector("[data-send-lead]");
+    if (!lead) {
+      lead = document.createElement("span");
+      lead.setAttribute("data-send-lead", "");
+      var text = "";
+      var node = sendErr.firstChild;
+      while (node && node !== fallback) {
+        var next = node.nextSibling;
+        if (node.nodeType === 3) {
+          text += node.textContent;
+          sendErr.removeChild(node);
+        }
+        node = next;
+      }
+      lead.setAttribute("data-default", text);
+      sendErr.insertBefore(lead, fallback || null);
+    }
+    var notice = message && String(message).trim();
+    lead.textContent = notice ? notice + " " : (lead.getAttribute("data-default") || "");
+    sendErr.hidden = false;
+  }
+
   document.querySelectorAll("form[data-form]").forEach(function (form) {
     var err = form.querySelector(".form-error");
     var sendErr = form.querySelector(".form-send-error");
@@ -254,13 +279,17 @@
       if (err) err.hidden = true;
       var button = form.querySelector('[type="submit"]');
       if (button) button.disabled = true;
+      var offer = form.getAttribute("data-offer") || form.getAttribute("data-form");
       var payload = {
         form: form.getAttribute("data-form"),
-        offer: form.getAttribute("data-offer") || form.getAttribute("data-form"),
+        offer: offer,
         language: document.documentElement.lang,
         page: window.location.pathname
       };
       Object.keys(fields).forEach(function (key) { payload[key] = fields[key]; });
+      payload._subject = "VeloxLab lead · " + offer;
+      payload._template = "table";
+      payload._captcha = "false";
       var forms = window.VELOX_FORMS;
       forms.postLead(form.getAttribute("data-endpoint") || config.formEndpoint, payload).then(function (result) {
         if (forms.formOutcome(result) === "success") {
@@ -268,7 +297,7 @@
           return;
         }
         if (button) button.disabled = false;
-        if (sendErr) sendErr.hidden = false;
+        showSendError(sendErr, result && result.message);
       });
     });
   });

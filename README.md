@@ -49,9 +49,9 @@ Homepage wording comes from `design/copy-v3.md` (v3.2). `design/style-guide.md` 
 
 Unknowns are written `[PLACEHOLDER: …]`. Every element that holds one has `data-placeholder="P##"`. Prices (P10) are left off the page on purpose. Spec-ad delivery is 5 days and the reply time is 24 hours. Those are real values from v3.2. The first-cut and demo turnaround (P07) stays a placeholder.
 
-Cal.com URLs, the WhatsApp link, the contact email, the social profile URLs, and the form endpoint live only in `js/config.js` as `window.VELOX_CONFIG`. The pages point at those keys with `data-config`. `js/main.js` copies them onto the controls. Replace `formEndpoint` with a real `https://` URL before leads can send. The provider is not chosen. The POST is JSON (`Accept` and `Content-Type` `application/json`), which Formspree and Web3Forms both accept.
+Booking links, the contact email, and the form endpoint live only in `js/config.js` as `window.VELOX_CONFIG`. The pages point at those keys with `data-config`. `js/main.js` copies them onto the controls. Intro and audit buttons open the Calendly pages. Leads POST JSON (`Accept` and `Content-Type` `application/json`) to the FormSubmit ajax URL. WhatsApp and the social profile URLs are still placeholders.
 
-A form shows its thank-you text only after that POST returns a 2xx status. While the endpoint is still unset, or the request fails, the form shows an error with the WhatsApp and email links and does not show the thank-you. `node --test scripts/form-submit.test.mjs` covers that rule.
+A form shows its thank-you text only after that POST returns a 2xx status and, when the body is JSON, `success` is `true` or `"true"`. FormSubmit can return HTTP 200 with `{ "success": "false", "message": "..." }`. That is a failure, and the message is shown in the form error with the WhatsApp and email links. An unset endpoint never sends. `node --test scripts/form-submit.test.mjs` covers that rule. The first real submit makes FormSubmit email an activation link to the address in `formEndpoint`. Leads are delivered only after that link is opened.
 
 Before a production deploy, run:
 
@@ -78,7 +78,7 @@ While the switch is off, `js/commitments.js` reveals the limited-spots lines (`d
 
 ## Contact
 
-Both forms check required fields and a honeypot (`company_website`). A filled honeypot is dropped and is not treated as a success. There is no Cal.com embed script. The booking buttons use the Cal.com URLs from `js/config.js`.
+Both forms check required fields and a honeypot (`company_website`). A filled honeypot is dropped and is not treated as a success. There is no calendar embed. The booking buttons use the Calendly URLs from `js/config.js`. Each payload adds FormSubmit's `_subject`, `_template` (`table`), and `_captcha` (`false`).
 
 ## What ships
 
