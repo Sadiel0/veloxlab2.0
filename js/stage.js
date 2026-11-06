@@ -4,9 +4,8 @@
    1. Hero: the chrome robot, waist up, holding its camera, seams glowing.
    2. Scrolling down, it dissolves from the head down. Every piece that breaks
       off becomes a code glyph that drops into a column of falling "rain".
-   3. That rain is the background of the rest of the site. It drifts with the
-      page as you scroll and runs faster when you scroll faster.
-   4. At the contact section the rain flows back up and re-forms the robot.
+   3. The rain falls away as the page begins, then stays as a faint presence
+      behind the content. Scrolling back up re-forms the robot.
 
    Falls back to the hero poster when WebGL or motion is unavailable. */
 
@@ -65,7 +64,7 @@ function glyphAtlas() {
   g.fillStyle = "#fff";
   g.textAlign = "center";
   g.textBaseline = "middle";
-  g.font = '500 46px "JetBrains Mono", ui-monospace, Menlo, monospace';
+  g.font = '500 46px ui-monospace, "SF Mono", Menlo, Consolas, monospace';
   for (let i = 0; i < 16; i++) g.fillText(chars[i], (i % 4) * 64 + 32, Math.floor(i / 4) * 64 + 34);
   const t = new CanvasTexture(c);
   return t;
@@ -96,7 +95,7 @@ function start() {
 
   const renderer = new WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.3 : 2));
-  renderer.setSize(innerWidth, innerHeight, false);
+  renderer.setSize(Math.max(1, innerWidth), Math.max(1, innerHeight), false);
   renderer.outputColorSpace = SRGBColorSpace;
   renderer.toneMapping = ACESFilmicToneMapping;
 
@@ -108,7 +107,8 @@ function start() {
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
   scene.environmentIntensity = 0.55;
 
-  const camera = new PerspectiveCamera(30, innerWidth / innerHeight, 0.05, 100);
+  const W = () => Math.max(1, innerWidth), H = () => Math.max(1, innerHeight);
+  const camera = new PerspectiveCamera(30, W() / H(), 0.05, 100);
 
   scene.add(new HemisphereLight(0xc9d2e0, 0x1a0e06, 0.35));
   const key = new DirectionalLight(0xeef2fa, 2.0);
@@ -126,11 +126,6 @@ function start() {
 
   const VH = { value: innerHeight };
   const atlas = glyphAtlas();
-  if (document.fonts) document.fonts.load('500 46px "JetBrains Mono"').then(() => {
-    const fresh = glyphAtlas();
-    atlas.image = fresh.image;
-    atlas.needsUpdate = true;
-  });
 
   /* ---------- Backdrop: warm smoke and glow ---------- */
 
@@ -143,7 +138,7 @@ function start() {
         uTime: { value: 0 },
         uCenter: { value: new Vector2(0.7, 0.55) },
         uHeat: { value: 1 },
-        uAspect: { value: innerWidth / innerHeight }
+        uAspect: { value: Math.max(1, innerWidth) / Math.max(1, innerHeight) }
       },
       vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.999, 1.0); }",
       fragmentShader: `
@@ -212,7 +207,7 @@ function start() {
 
   /* ---------- Code rain: the background of the whole site ---------- */
 
-  const COLS = mobile ? 110 : 260;
+  const COLS = mobile ? 70 : 150;
   const PER = mobile ? 14 : 18;
   const RAIN = COLS * PER;
   const rg = new BufferGeometry();
@@ -402,7 +397,7 @@ function start() {
 
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new Vector2(innerWidth, innerHeight), 0.4, 0.4, 0.9);
+  const bloom = new UnrealBloomPass(new Vector2(W(), H()), 0.4, 0.4, 0.9);
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
 
@@ -413,15 +408,15 @@ function start() {
   // rain code-rain strength, emb embers
   const TAU = Math.PI * 2;
   const STATIONS = [
-    { sel: ".hero-frame",  az: 0.38, el: 0.02, d: 2.25, y: 0.6,  x: 0.42, yaw: -0.45, glow: 1.0, ex: 1.0,  heat: 1.0, dis: 0, rain: 0,    emb: 1 },
-    { sel: "#reel",        az: 0.15, el: 0.35, d: 4.6, y: 0.1,  x: 0.0,  yaw: -0.2, glow: 1.6, ex: 0.9,  heat: 0.6, dis: 1, rain: 0.9,  emb: 0.2 },
-    { sel: "#work",        az: -0.5, el: 0.2,  d: 5.5, y: 0.0,  x: 0.0,  yaw: 0.0,  glow: 1.0, ex: 0.85, heat: 0.35, dis: 1, rain: 0.55, emb: 0 },
-    { sel: "#services",    az: 0.0,  el: 0.05, d: 5.0, y: 0.1,  x: 0.0,  yaw: 0.0,  glow: 1.0, ex: 0.9,  heat: 0.5, dis: 1, rain: 0.45, emb: 0 },
-    { sel: "#real-estate", az: 0.6,  el: 0.1,  d: 4.6, y: 0.2,  x: 0.0,  yaw: 0.0,  glow: 1.0, ex: 0.9,  heat: 0.45, dis: 1, rain: 0.6,  emb: 0 },
-    { sel: "#process",     az: 0.6 + Math.PI, el: 0.3, d: 5.2, y: 0.1, x: 0.0, yaw: 0.0, glow: 1.0, ex: 0.9, heat: 0.4, dis: 1, rain: 0.85, emb: 0 },
-    { sel: "#about",       az: 0.6 + TAU, el: 0.08, d: 4.4, y: 0.2, x: 0.0, yaw: 0.0, glow: 1.0, ex: 0.9, heat: 0.5, dis: 1, rain: 0.55, emb: 0 },
-    { sel: "#contact",     az: TAU + 0.35, el: 0.0, d: 3.6, y: 0.4, x: 0.6, yaw: -0.5, glow: 1.4, ex: 1.0, heat: 1.0, dis: 0, rain: 0.3, emb: 0.6 },
-    { sel: ".footer",      az: TAU + 0.35, el: -0.1, d: 4.4, y: 0.2, x: 0.5, yaw: -0.35, glow: 1.9, ex: 0.85, heat: 1.2, dis: 0, rain: 0.6, emb: 1 }
+    { sel: ".hero-frame",  az: 0.38, el: 0.02, d: 2.25, y: 0.6,  x: 0.42, yaw: -0.45, glow: 1.0, ex: 1.0, heat: 1.0, dis: 0, rain: 0,    emb: 0.45 },
+    { sel: "#reel",        az: 0.15, el: 0.35, d: 4.6, y: 0.1,  x: 0.0,  yaw: -0.2, glow: 1.4, ex: 0.9,  heat: 0.5, dis: 1, rain: 0.4,  emb: 0 },
+    { sel: "#work",        az: -0.5, el: 0.2,  d: 5.5, y: 0.0,  x: 0.0,  yaw: 0.0,  glow: 1.0, ex: 0.85, heat: 0.25, dis: 1, rain: 0.1,  emb: 0 },
+    { sel: "#services",    az: 0.0,  el: 0.05, d: 5.0, y: 0.1,  x: 0.0,  yaw: 0.0,  glow: 1.0, ex: 0.85, heat: 0.25, dis: 1, rain: 0.06, emb: 0 },
+    { sel: "#real-estate", az: 0.6,  el: 0.1,  d: 4.6, y: 0.2,  x: 0.0,  yaw: 0.0,  glow: 1.0, ex: 0.85, heat: 0.3, dis: 1, rain: 0.1,  emb: 0 },
+    { sel: "#process",     az: 0.6 + Math.PI, el: 0.3, d: 5.2, y: 0.1, x: 0.0, yaw: 0.0, glow: 1.0, ex: 0.85, heat: 0.3, dis: 1, rain: 0.16, emb: 0 },
+    { sel: "#about",       az: 0.6 + TAU, el: 0.08, d: 4.4, y: 0.2, x: 0.0, yaw: 0.0, glow: 1.0, ex: 0.85, heat: 0.3, dis: 1, rain: 0.1, emb: 0 },
+    { sel: "#contact",     az: TAU + 0.35, el: 0.0, d: 3.6, y: 0.4, x: 0.6, yaw: -0.5, glow: 1.2, ex: 0.95, heat: 0.6, dis: 1, rain: 0.04, emb: 0 },
+    { sel: ".footer",      az: TAU + 0.35, el: 0.0, d: 3.6, y: 0.4, x: 0.6, yaw: -0.5, glow: 1.2, ex: 0.9, heat: 0.4, dis: 1, rain: 0.05, emb: 0 }
   ];
   const KEYS = ["az", "el", "d", "y", "x", "yaw", "glow", "ex", "heat", "dis", "rain", "emb"];
   let anchors = [];
@@ -474,10 +469,10 @@ function start() {
   addEventListener("resize", () => {
     mobile = small();
     renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.3 : 2));
-    renderer.setSize(innerWidth, innerHeight, false);
+    renderer.setSize(W(), H(), false);
     composer.setPixelRatio(renderer.getPixelRatio());
-    composer.setSize(innerWidth, innerHeight);
-    camera.aspect = innerWidth / innerHeight;
+    composer.setSize(W(), H());
+    camera.aspect = W() / H();
     camera.updateProjectionMatrix();
     backdrop.material.uniforms.uAspect.value = camera.aspect;
     VH.value = innerHeight;
@@ -530,6 +525,13 @@ function start() {
     camera.position.addScaledVector(right, -xShift * halfW);
     camera.lookAt(target);
     camera.rotateZ(MathUtils.clamp(vel * 0.0005, -0.025, 0.025));
+    if (!Number.isFinite(camera.position.x) || !Number.isFinite(camera.quaternion.x)) {
+      camera.position.set(0, 0.5, 3);
+      camera.quaternion.identity();
+      camera.updateMatrixWorld(true);
+      mouseS.set(0, 0);
+      vel = 0;
+    }
 
     // robot: scroll yaw, mouse follow, breathing
     rig.rotation.y = cur.yaw;
@@ -576,7 +578,7 @@ function start() {
         bloom.enabled = false;
         renderer.setPixelRatio(1);
         composer.setPixelRatio(1);
-        composer.setSize(innerWidth, innerHeight);
+        composer.setSize(W(), H());
         frames = 240;
       }
     }
