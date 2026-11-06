@@ -220,6 +220,31 @@
     }
   }
 
+  function showSendError(sendErr, message) {
+    if (!sendErr) return;
+    var fallback = sendErr.querySelector(".form-fallback");
+    var lead = sendErr.querySelector("[data-send-lead]");
+    if (!lead) {
+      lead = document.createElement("span");
+      lead.setAttribute("data-send-lead", "");
+      var text = "";
+      var node = sendErr.firstChild;
+      while (node && node !== fallback) {
+        var next = node.nextSibling;
+        if (node.nodeType === 3) {
+          text += node.textContent;
+          sendErr.removeChild(node);
+        }
+        node = next;
+      }
+      lead.setAttribute("data-default", text);
+      sendErr.insertBefore(lead, fallback || null);
+    }
+    var notice = message && String(message).trim();
+    lead.textContent = notice ? notice + " " : (lead.getAttribute("data-default") || "");
+    sendErr.hidden = false;
+  }
+
   document.querySelectorAll("form[data-form]").forEach(function (form) {
     var err = form.querySelector(".form-error");
     var sendErr = form.querySelector(".form-send-error");
@@ -254,13 +279,17 @@
       if (err) err.hidden = true;
       var button = form.querySelector('[type="submit"]');
       if (button) button.disabled = true;
+      var offer = form.getAttribute("data-offer") || form.getAttribute("data-form");
       var payload = {
         form: form.getAttribute("data-form"),
-        offer: form.getAttribute("data-offer") || form.getAttribute("data-form"),
+        offer: offer,
         language: document.documentElement.lang,
         page: window.location.pathname
       };
       Object.keys(fields).forEach(function (key) { payload[key] = fields[key]; });
+      payload._subject = "VeloxLab lead · " + offer;
+      payload._template = "table";
+      payload._captcha = "false";
       var forms = window.VELOX_FORMS;
       forms.postLead(form.getAttribute("data-endpoint") || config.formEndpoint, payload).then(function (result) {
         if (forms.formOutcome(result) === "success") {
@@ -268,8 +297,135 @@
           return;
         }
         if (button) button.disabled = false;
-        if (sendErr) sendErr.hidden = false;
+        showSendError(sendErr, result && result.message);
       });
     });
   });
+})();
+
+/* Signature layer (style guide §8): Lenis smooth scroll, the one hero
+   entrance, words drifting apart as the robot dissolves, the nav's active
+   ring and the process line. Nothing else moves. Reduced motion skips it all. */
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var vh = window.innerHeight;
+  var vw = window.innerWidth;
+  window.addEventListener("resize", function () { vh = window.innerHeight; vw = window.innerWidth; }, { passive: true });
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+  /* Hero words: phones fit long words (CONSTRUYE) to the column */
+  var screen = document.querySelector(".hero-screen");
+  var kws = Array.prototype.slice.call(document.querySelectorAll(".hero-screen .kw"));
+  function fitWords() {
+    kws.forEach(function (kw) {
+      kw.style.fontSize = "";
+      if (window.innerWidth >= 768) return;
+      var inner = kw.querySelector(".shift") || kw;
+      var avail = kw.clientWidth;
+      var need = inner.scrollWidth;
+      if (need > avail && avail > 0) {
+        var size = parseFloat(getComputedStyle(kw).fontSize);
+        kw.style.fontSize = Math.floor(size * (avail / need) * 0.98) + "px";
+      }
+    });
+  }
+  fitWords();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitWords);
+  window.addEventListener("resize", fitWords, { passive: true });
+
+  /* The one orchestrated entrance, after fonts so nothing shifts mid-move */
+  function loaded() { root.classList.add("is-loaded"); }
+  if (reduce) loaded();
+  else {
+    var done = false;
+    var go = function () { if (done) return; done = true; requestAnimationFrame(function () { requestAnimationFrame(loaded); }); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(go);
+    setTimeout(go, 700);
+  }
+
+  /* Nav: a 1px amber ring slides to the section in view */
+  var pill = document.querySelector(".nav-pill");
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-pill a"));
+  var navTargets = navLinks.map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); });
+  var ring = null, activeIdx = -1;
+  if (pill) {
+    ring = document.createElement("span");
+    ring.className = "pill-ring";
+    ring.setAttribute("aria-hidden", "true");
+    pill.insertBefore(ring, pill.firstChild);
+  }
+  function setActive(idx) {
+    if (idx === activeIdx || !ring) return;
+    activeIdx = idx;
+    navLinks.forEach(function (a, i) { a.classList.toggle("is-active", i === idx); });
+    if (idx < 0) { ring.classList.remove("is-on"); return; }
+    var a = navLinks[idx];
+    ring.style.width = a.offsetWidth + "px";
+    ring.style.transform = "translateX(" + a.offsetLeft + "px)";
+    ring.classList.add("is-on");
+  }
+
+  /* Process: an amber line fills as the steps come into view */
+  var steps = document.querySelector(".steps");
+  var bar = null;
+  if (steps) {
+    bar = document.createElement("span");
+    bar.className = "steps-progress";
+    bar.setAttribute("aria-hidden", "true");
+    steps.appendChild(bar);
+  }
+
+  /* Lenis smooth scroll and eased anchor jumps */
+  var lenis = null;
+  if (!reduce && window.Lenis) {
+    lenis = new window.Lenis({ lerp: 0.09, smoothWheel: true });
+    window.__lenis = lenis;
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest('a[href*="#"]');
+      if (!a || e.defaultPrevented) return;
+      var url = new URL(a.href, location.href);
+      if (url.pathname !== location.pathname || url.search !== location.search || !url.hash || url.hash === "#") return;
+      var target = document.querySelector(url.hash);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -84, duration: 1.4, easing: function (x) { return x === 1 ? 1 : 1 - Math.pow(2, -10 * x); } });
+      if (history.pushState) history.pushState(null, "", url.hash);
+    });
+  }
+
+  var frame = 0;
+  function tick(t) {
+    if (lenis) lenis.raf(t);
+    var y = window.scrollY;
+    frame++;
+
+    // hero words drift apart (up to 6vw) as the robot dissolves; transform only
+    if (screen && !reduce && vw >= 768) {
+      var p = clamp(y / (screen.offsetHeight || vh), 0, 1);
+      if (p < 1) {
+        kws.forEach(function (k, i) {
+          var dir = i === 1 ? 1 : -1;
+          k.style.transform = "translate3d(" + (dir * p * vw * 0.06).toFixed(1) + "px,0,0)";
+        });
+      }
+    }
+
+    if (bar) {
+      var sr = steps.getBoundingClientRect();
+      bar.style.setProperty("--p", clamp((vh * 0.85 - sr.top) / (vh * 0.5), 0, 1).toFixed(3));
+    }
+
+    if (ring && frame % 6 === 0) {
+      var idx = -1;
+      for (var i = 0; i < navTargets.length; i++) {
+        var s = navTargets[i];
+        if (s && s.getBoundingClientRect().top < vh * 0.45) idx = i;
+      }
+      setActive(idx);
+    }
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
 })();

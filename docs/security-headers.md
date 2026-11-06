@@ -17,7 +17,7 @@ Do not send HSTS until the certificate is live on `veloxlab.studio`.
 
 ## Content-Security-Policy
 
-Fonts and the hero video are self-hosted. There is no third-party script. The Cal.com embed is not included yet. When that script is added, its origin has to be added here too.
+Fonts and the hero are self-hosted. There is no third-party script. Booking buttons are normal links to Calendly, not an embed. Lead forms `fetch` JSON from FormSubmit, so `connect-src` has to allow that origin or the browser blocks the POST.
 
 ```
 default-src 'self';
@@ -26,7 +26,7 @@ style-src 'self';
 font-src 'self';
 img-src 'self' data:;
 media-src 'self';
-connect-src 'self';
+connect-src 'self' https://formsubmit.co;
 frame-src 'none';
 object-src 'none';
 base-uri 'self';
@@ -34,7 +34,7 @@ form-action 'self';
 upgrade-insecure-requests
 ```
 
-`frame-src` stays `'none'` until the Cal.com embed has a known origin. The form does not post anywhere yet, so `form-action 'self'` is enough. Widen it when the owner names the form endpoint.
+`frame-src` stays `'none'` because Calendly is opened as a page, not framed. The forms call `fetch` and never navigate, so `form-action 'self'` still holds. `connect-src` is what lets the ajax POST through.
 
 The only inline script is the JSON-LD block (`type="application/ld+json"`), which CSP does not execute.
 

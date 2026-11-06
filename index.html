@@ -32,6 +32,7 @@
   <link rel="preload" href="/assets/fonts/xn7gYHE41ni1AdIRggexSg.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/fonts/fonts.css" />
   <link rel="stylesheet" href="/styles.css" />
+  <script src="/js/boot.js"></script>
 
   <script type="application/ld+json">
   {
@@ -61,14 +62,6 @@
           "addressRegion": "FL",
           "addressCountry": "US"
         }
-      },
-      {
-        "@type": "VideoObject",
-        "name": "VeloxLab hero",
-        "description": "Miami creative and development studio. Brand videos, websites and AI follow-up in English and Spanish. Get a free spec ad or a 15-min AI audit.",
-        "thumbnailUrl": "https://veloxlab.studio/assets/hero/poster.webp",
-        "contentUrl": "https://veloxlab.studio/assets/hero/hero-1080.mp4",
-        "uploadDate": "2026-11-05"
       }
     ]
   }
@@ -124,16 +117,9 @@
         <div class="hero-media">
           <picture>
             <source srcset="/assets/hero/poster.avif" type="image/avif" />
-            <img class="hero-still" src="/assets/hero/poster.webp" alt="" width="1280" height="720" decoding="async" fetchpriority="low" />
+            <img class="hero-still" src="/assets/hero/poster.webp" alt="" width="1280" height="720" decoding="async" fetchpriority="high" />
           </picture>
-          <video class="hero-loop" poster="/assets/hero/poster.webp" muted playsinline loop preload="metadata" aria-hidden="true" tabindex="-1">
-            <source src="/assets/hero/hero-1080.webm" type="video/webm" media="(min-width: 1024px)" />
-            <source src="/assets/hero/hero-720.webm" type="video/webm" />
-            <source src="/assets/hero/hero-1080.mp4" type="video/mp4" media="(min-width: 1024px)" />
-            <source src="/assets/hero/hero-720.mp4" type="video/mp4" />
-          </video>
           <div class="hero-scrim"></div>
-          <button class="hero-pause" type="button" aria-pressed="false" aria-label="Pause background video"></button>
         </div>
 
         <div class="hero-copy">
@@ -158,42 +144,42 @@
     <section class="reel wrap" id="reel" aria-labelledby="reel-title">
       <h2 class="sr-only" id="reel-title">Reel</h2>
       <div class="reel-frame" data-placeholder="P19">
-        <p><span class="mark">[PLACEHOLDER: real reel]</span><strong>Showreel</strong></p>
+        <p><span class="mark">Showreel · 20–30s cut of the six pieces below (assemble last)</span><strong>Showreel</strong></p>
         <button class="btn btn-outline" type="button">Play with sound</button>
       </div>
-      <p class="reel-cap" data-placeholder="P19">The reel · brands, food, retail, web and real estate [PLACEHOLDER: real reel]</p>
+      <p class="reel-cap" data-placeholder="P19">The reel · brands, food, retail, web and real estate</p>
     </section>
 
     <section class="band wrap" id="work" aria-labelledby="work-title">
       <div class="work-head">
         <h2 id="work-title">Selected work</h2>
         <p class="work-count" aria-live="polite">1 / 6</p>
-        <p class="lede" data-placeholder="P19">Real projects, real businesses. Pick one and press play. [PLACEHOLDER: hide sub until P19 has 4+ pieces]</p>
+        <p class="lede" data-placeholder="P19">Spec pieces for the portfolio. Generate each in Higgsfield, then drop the file in.</p>
       </div>
       <div class="work-track" tabindex="0" aria-label="Selected work">
         <figure class="card" data-placeholder="P19">
-          <div class="card-media"><span class="mark">[PLACEHOLDER: café brand film]</span></div>
-          <figcaption>[PLACEHOLDER: client] · [PLACEHOLDER: industry] · [PLACEHOLDER: deliverable]</figcaption>
+          <div class="card-media"><span class="mark">Café brand film · 9:16 · 8–12s</span></div>
+          <figcaption>Spec · Café · Brand film</figcaption>
         </figure>
         <figure class="card" data-placeholder="P19">
-          <div class="card-media"><span class="mark">[PLACEHOLDER: boutique landing page]</span></div>
-          <figcaption>[PLACEHOLDER: client] · [PLACEHOLDER: industry] · [PLACEHOLDER: deliverable]</figcaption>
+          <div class="card-media"><span class="mark">Boutique landing · 16:9 still or 4–6s UI loop</span></div>
+          <figcaption>Spec · Boutique · Landing page</figcaption>
         </figure>
         <figure class="card" data-placeholder="P19">
-          <div class="card-media"><span class="mark">[PLACEHOLDER: clinic booking automation]</span></div>
-          <figcaption>[PLACEHOLDER: client] · [PLACEHOLDER: industry] · [PLACEHOLDER: deliverable]</figcaption>
+          <div class="card-media"><span class="mark">Clinic booking UI · 16:9 still or 6–8s loop</span></div>
+          <figcaption>Spec · Clinic · Booking automation</figcaption>
         </figure>
         <figure class="card" data-placeholder="P19">
-          <div class="card-media"><span class="mark">[PLACEHOLDER: listing film]</span></div>
-          <figcaption>[PLACEHOLDER: client] · [PLACEHOLDER: industry] · [PLACEHOLDER: deliverable]</figcaption>
+          <div class="card-media"><span class="mark">Listing film · 9:16 · 12–15s Miami condo</span></div>
+          <figcaption>Spec · Real estate · Listing film</figcaption>
         </figure>
         <figure class="card" data-placeholder="P19">
-          <div class="card-media"><span class="mark">[PLACEHOLDER: food reel]</span></div>
-          <figcaption>[PLACEHOLDER: client] · [PLACEHOLDER: industry] · [PLACEHOLDER: deliverable]</figcaption>
+          <div class="card-media"><span class="mark">Food reel · 9:16 · 6–10s plated dish</span></div>
+          <figcaption>Spec · Restaurant · Food reel</figcaption>
         </figure>
         <figure class="card" data-placeholder="P19">
-          <div class="card-media"><span class="mark">[PLACEHOLDER: retail website]</span></div>
-          <figcaption>[PLACEHOLDER: client] · [PLACEHOLDER: industry] · [PLACEHOLDER: deliverable]</figcaption>
+          <div class="card-media"><span class="mark">Retail website · 16:9 still or 4–6s UI loop</span></div>
+          <figcaption>Spec · Retail · Website</figcaption>
         </figure>
       </div>
       <p class="section-cta"><a class="btn btn-outline" href="#work">See the full project</a></p>
@@ -294,14 +280,14 @@
           <h2 id="spot-title">Real estate, for example.</h2>
           <p class="lede">Miami buyers scroll in two languages. We make listing films and reels that speak to both, so your listing gets seen by more of the people who can buy it.</p>
           <ul class="outcomes">
-            <li data-placeholder="P12">[PLACEHOLDER: outcome 1]</li>
-            <li data-placeholder="P12">[PLACEHOLDER: outcome 2]</li>
-            <li data-placeholder="P12">[PLACEHOLDER: outcome 3]</li>
+            <li data-placeholder="P12">Inquiries in both languages</li>
+            <li data-placeholder="P12">Faster from listing to post</li>
+            <li data-placeholder="P12">A cleaner listing page</li>
           </ul>
         </div>
         <div>
-          <div class="reel-frame" data-placeholder="P12" role="img" aria-label="[PLACEHOLDER: listing · neighborhood]"></div>
-          <p data-placeholder="P12">[PLACEHOLDER: listing · neighborhood] · film + [PLACEHOLDER: number] reels</p>
+          <div class="reel-frame" data-placeholder="P12" role="img" aria-label="Spec listing · Brickell-style · film + 2 reels (9:16)"></div>
+          <p data-placeholder="P12">Spec listing · Brickell-style · film + 2 reels (9:16)</p>
           <p><a class="btn btn-outline" href="/?topic=real-estate#contact">Get a free spec ad for your listing</a></p>
           <p class="field-help">Send us one listing link. We'll show you how it could look.</p>
         </div>
@@ -404,9 +390,11 @@
     <p class="legal">© 2026 VeloxLab Studio · <a href="/privacy.html">Privacy</a></p>
   </footer>
 
+  <script src="/js/vendor/lenis.min.js" defer></script>
   <script src="/js/config.js" defer></script>
   <script src="/js/commitments.js" defer></script>
   <script src="/js/form-submit.js" defer></script>
   <script src="/js/main.js" defer></script>
+  <script type="module" src="/js/stage.js"></script>
 </body>
 </html>

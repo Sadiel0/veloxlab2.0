@@ -14,9 +14,34 @@ Open http://127.0.0.1:5173/ and http://127.0.0.1:5173/es/
 
 ## Design
 
-The visual system is Molten Ace: obsidian, bone, and amber. Headlines are Unbounded and body text is Manrope, self-hosted from Google Fonts (SIL Open Font License) in `assets/fonts/`.
+The visual system is Molten Ace: obsidian, bone, and amber. Headlines are Unbounded and body text is Manrope, both self-hosted from Google Fonts (SIL Open Font License) in `assets/fonts/`.
 
-The hero is a muted, ping-pong video in `assets/hero/` (`hero-1080` and `hero-720`, MP4 and WebM). The live 3D figure is a later phase and is not on the page. `prefers-reduced-motion` shows `assets/hero/poster.webp` (AVIF alongside it), made from the key art.
+The hero is a live 3D robot (see "3D stage" below). The poster in `assets/hero/` is the first paint and the fallback when WebGL is unavailable or `prefers-reduced-motion` is set. The earlier hero video loop is still in `assets/hero/` but no longer on the page. Every generated asset, with its prompt and job id, is in `prompts/asset-prompts.md`.
+
+## 3D stage
+
+`js/stage.js` draws one fixed WebGL canvas behind the whole page, and everything in it is driven by scroll position, so it also plays backwards:
+
+1. The hero shows the robot chest up, holding its camera. Desktop loads `assets/3d/robot-hd.glb` (3.7 MB, full mesh, 4K textures); phones load `assets/3d/robot.glb` (2 MB, simplified, 2K textures). Both were generated with Higgsfield and compressed with gltf-transform.
+2. Scrolling down dissolves it from the head down. Each piece that breaks off becomes a code glyph that snaps into a column and falls.
+3. The rain falls away as the page begins and stays only as a faint presence behind the content. Scrolling back up re-forms the robot.
+
+Each section is a station in `STATIONS`, with its own camera angle, distance, where the robot sits on screen, dissolve amount, rain strength and seam heat. Scroll blends between them. The mouse turns the robot a little and shifts the camera.
+
+Three.js is self-hosted as `js/vendor/three.bundle.js`, so the recommended `script-src 'self'` policy still holds. To rebuild it, bundle `three@0.169.0` plus the addons named in its header with esbuild (`--bundle --format=esm --minify`). The model uses only quantization and WebP textures, which need no WebAssembly decoder.
+
+If the device is slow, the stage turns off bloom and lowers resolution after a few seconds.
+
+## Motion
+
+The site follows the motion rules in `design/style-guide.md` §8: one orchestrated hero moment and restraint everywhere else. `js/main.js` ends with a small signature layer:
+
+- Lenis smooth scrolling (`js/vendor/lenis.min.js`, MIT) with eased anchor jumps
+- the hero entrance: CREATE and GROW slide in from the left, BUILD from the right, then the subline and Play reel fade in
+- the hero words drifting apart (up to 6vw) as the robot dissolves
+- a 1px amber ring in the nav pill that slides to the section in view, and the process line that fills as the steps enter
+
+Nothing else animates. Body text never moves. Reduced motion turns all of it off.
 
 ## Copy
 
@@ -24,9 +49,9 @@ Homepage wording comes from `design/copy-v3.md` (v3.2). `design/style-guide.md` 
 
 Unknowns are written `[PLACEHOLDER: …]`. Every element that holds one has `data-placeholder="P##"`. Prices (P10) are left off the page on purpose. Spec-ad delivery is 5 days and the reply time is 24 hours. Those are real values from v3.2. The first-cut and demo turnaround (P07) stays a placeholder.
 
-Cal.com URLs, the WhatsApp link, the contact email, the social profile URLs, and the form endpoint live only in `js/config.js` as `window.VELOX_CONFIG`. The pages point at those keys with `data-config`. `js/main.js` copies them onto the controls. Replace `formEndpoint` with a real `https://` URL before leads can send. The provider is not chosen. The POST is JSON (`Accept` and `Content-Type` `application/json`), which Formspree and Web3Forms both accept.
+Booking links, the contact email, and the form endpoint live only in `js/config.js` as `window.VELOX_CONFIG`. The pages point at those keys with `data-config`. `js/main.js` copies them onto the controls. Intro and audit buttons open the Calendly pages. Leads POST JSON (`Accept` and `Content-Type` `application/json`) to the FormSubmit ajax URL. WhatsApp and the social profile URLs are still placeholders.
 
-A form shows its thank-you text only after that POST returns a 2xx status. While the endpoint is still unset, or the request fails, the form shows an error with the WhatsApp and email links and does not show the thank-you. `node --test scripts/form-submit.test.mjs` covers that rule.
+A form shows its thank-you text only after that POST returns a 2xx status and, when the body is JSON, `success` is `true` or `"true"`. FormSubmit can return HTTP 200 with `{ "success": "false", "message": "..." }`. That is a failure, and the message is shown in the form error with the WhatsApp and email links. An unset endpoint never sends. `node --test scripts/form-submit.test.mjs` covers that rule. The first real submit makes FormSubmit email an activation link to the address in `formEndpoint`. Leads are delivered only after that link is opened.
 
 Before a production deploy, run:
 
@@ -53,7 +78,7 @@ While the switch is off, `js/commitments.js` reveals the limited-spots lines (`d
 
 ## Contact
 
-Both forms check required fields and a honeypot (`company_website`). A filled honeypot is dropped and is not treated as a success. There is no Cal.com embed script. The booking buttons use the Cal.com URLs from `js/config.js`.
+Both forms check required fields and a honeypot (`company_website`). A filled honeypot is dropped and is not treated as a success. There is no calendar embed. The booking buttons use the Calendly URLs from `js/config.js`. Each payload adds FormSubmit's `_subject`, `_template` (`table`), and `_captcha` (`false`).
 
 ## What ships
 
